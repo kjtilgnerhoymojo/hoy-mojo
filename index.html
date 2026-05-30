@@ -229,8 +229,8 @@
     <label class="field-label">Fecha de nacimiento de tu pareja</label>
     <input type="date" class="field-input" id="birthDate" max="2008-01-01" min="1950-01-01">
 
-    <label class="field-label">¿Hace cuántos días tuvo la regla? (1 – 28)</label>
-    <input type="number" class="field-input" id="periodDays" min="1" max="28" placeholder="Ej: 14">
+    <label class="field-label">¿Hace cuántos días tuvo la regla? <span style="color:rgba(255,255,255,0.3);font-size:10px">(pon 90+ si no hay ciclo regular)</span></label>
+    <input type="number" class="field-input" id="periodDays" min="1" max="999" placeholder="Ej: 14  (o 90+ si no hay ciclo)">
 
     <button class="calc-btn" id="calcBtn" onclick="calculate()" disabled>🔮 CALCULAR</button>
 
@@ -258,6 +258,9 @@
 
         <div class="phase-badge" id="phaseBadge"></div>
         <div class="phase-hint" id="phaseHint"></div>
+
+        <!-- Menopausal note -->
+        <div id="menoNote" style="display:none;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.25);border-radius:14px;padding:14px 16px;margin:8px 0 20px;display:none;flex-direction:row;gap:12px;align-items:flex-start;text-align:left;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6"></div>
 
         <!-- Stats -->
         <div class="stats-row">
@@ -338,7 +341,7 @@
       <div class="step-num">05</div>
       <div class="step-icon">🔢</div>
       <div class="step-title">Índice final</div>
-      <div class="step-desc">Los cuatro factores se combinan en una puntuación de 0 a 100. Cuanto más alto, mejor el momento.</div>
+      <div class="step-desc">Los cuatro factores se combinan en una puntuación de 0 a 100. Si el ciclo es irregular o inexistente (menopausia), el cálculo se adapta automáticamente.</div>
     </div>
   </div>
 </section>
@@ -441,8 +444,8 @@
 <footer>
   <div class="footer-logo">¿HOY MOJO?</div>
   <div class="footer-links">
-    <a href="#">Política de privacidad</a>
-    <a href="#">Aviso legal</a>
+    <a href="/legal.html">Política de privacidad</a>
+    <a href="/legal.html">Aviso legal</a>
     <a href="#">Contacto</a>
     <a href="https://libirhythm.com">LibiRhythm 💜</a>
   </div>
@@ -521,15 +524,20 @@ function getGifts(idx) {
 function calculate() {
   const bd  = document.getElementById('birthDate').value;
   const pd  = parseInt(document.getElementById('periodDays').value);
-  if (!bd || isNaN(pd) || pd < 1 || pd > 28) return;
+  if (!bd || isNaN(pd) || pd < 1) return;
+  const isMeno = pd > 60;
 
   const days  = daysSince(bd);
   const emo   = bio(days, 28);
   const fis   = bio(days, 23);
   const int_  = bio(days, 33);
-  const cDay  = ((pd % 28) + 28) % 28 || 28;
-  const phase = getCyclePhase(cDay);
-  const raw   = phase.score * 0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10;
+  const cDay  = isMeno ? null : (((pd % 28) + 28) % 28 || 28);
+  const phase = isMeno ? { name:"Sin ciclo activo", emoji:"🌙", score:0, hint:"Cálculo basado en bioritmos personales" } : getCyclePhase(cDay);
+  // Menopause: redistribute cycle weight to biorhythms (45% emo, 30% fis, 25% int)
+  // Normal: 50% cycle + 25% emo + 15% fis + 10% int
+  const raw   = isMeno
+    ? ((emo+1)/2)*0.45 + ((fis+1)/2)*0.30 + ((int_+1)/2)*0.25
+    : phase.score * 0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10;
   const idx   = Math.round(raw * 100);
   const emoP  = Math.round(((emo+1)/2)*100);
   const fisP  = Math.round(((fis+1)/2)*100);
@@ -574,8 +582,19 @@ function calculate() {
   const timer = setInterval(() => { cur = Math.min(cur+2, idx); gn.textContent = cur; if(cur>=idx) clearInterval(timer); }, 20);
 
   // Phase
-  document.getElementById('phaseBadge').textContent = `${phase.emoji} ${phase.name} · Día ${cDay} del ciclo`;
+  document.getElementById('phaseBadge').textContent = isMeno ? `${phase.emoji} ${phase.name}` : `${phase.emoji} ${phase.name} · Día ${cDay} del ciclo`;
   document.getElementById('phaseHint').textContent = `"${phase.hint}"`;
+
+  // Menopausal note
+  const menoNote = document.getElementById('menoNote');
+  if (isMeno) {
+    menoNote.style.display = 'block';
+    menoNote.innerHTML = `<span style="font-size:18px">🌙</span><div><b style="color:#a78bfa">Modo sin ciclo activo</b><br>
+    No se detecta un ciclo menstrual regular. El índice se calcula exclusivamente con los tres bioritmos personales
+    (emocional 45%, físico 30%, intelectual 25%). Los resultados siguen siendo válidos.</div>`;
+  } else {
+    menoNote.style.display = 'none';
+  }
 
   // Stats
   document.getElementById('statEmo').textContent = emoP + '%';
@@ -674,7 +693,7 @@ function resetCalc() {
   document.getElementById(id).addEventListener('input', () => {
     const bd = document.getElementById('birthDate').value;
     const pd = parseInt(document.getElementById('periodDays').value);
-    document.getElementById('calcBtn').disabled = !(bd && pd >= 1 && pd <= 28);
+    document.getElementById('calcBtn').disabled = !(bd && pd >= 1);
   });
 });
 
