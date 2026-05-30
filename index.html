@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script defer src="/_vercel/insights/script.js"></script>  
+  <script defer src="/_vercel/insights/script.js"></script>
 <title>¿Hoy Mojo? — La calculadora que todos necesitan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -492,33 +492,61 @@ const SHOPS = {
   meetic:    { n:"Meetic",          c:"#ff4500", bg:"rgba(255,69,0,0.12)",    b:"rgba(255,69,0,0.3)",    u:(q)=>`https://www.meetic.es` },
 };
 
-const GIFTS = {
+const GIFT_POOLS = {
   high: [
-    { e:"🌹", n:"Flores y ramos premium",  d:"Entrega hoy a domicilio. Nunca falla.", hot:true,  shops:[{s:"interflora",q:"ramo+flores+romantico"},{s:"amazon",q:"ramo+flores+mujer+regalo"},{s:"elcorte",q:"flores+regalo+mujer"}] },
-    { e:"💎", n:"Perfume de lujo",          d:"Dior, YSL, Lancôme, Carolina Herrera...", hot:true,shops:[{s:"sephora",q:"perfume+mujer+lujo"},{s:"elcorte",q:"perfume+mujer+regalo+lujo"},{s:"amazon",q:"perfume+mujer+regalo"}] },
-    { e:"👙", n:"Lencería especial",        d:"Para la ocasión perfecta.",              hot:true,  shops:[{s:"lovehoney",q:"lenceria+mujer"},{s:"zalando",q:"lenceria+mujer+especial"},{s:"elcorte",q:"lenceria+mujer+regalo"},{s:"amazon",q:"lenceria+mujer+regalo"}] },
-    { e:"🍽️", n:"Cena romántica",          d:"Reserva en el restaurante perfecto.",    hot:false, shops:[{s:"thefork",q:"romantico"}] },
+    { e:"🌹", n:"Flores y ramos premium",      d:"Entrega hoy a domicilio. Nunca falla.",               hot:true,  shops:[{s:"interflora",q:"ramo+flores+romantico"},{s:"amazon",q:"ramo+flores+mujer+regalo"},{s:"elcorte",q:"flores+regalo+mujer"}] },
+    { e:"💎", n:"Perfume de lujo",              d:"Dior, YSL, Lancôme, Carolina Herrera...",             hot:true,  shops:[{s:"sephora",q:"perfume+mujer+lujo"},{s:"elcorte",q:"perfume+mujer+regalo+lujo"},{s:"amazon",q:"perfume+mujer+regalo"}] },
+    { e:"👙", n:"Lencería especial",            d:"Para la ocasión perfecta.",                           hot:true,  shops:[{s:"lovehoney",q:"lenceria+mujer"},{s:"zalando",q:"lenceria+mujer+especial"},{s:"elcorte",q:"lenceria+mujer+regalo"}] },
+    { e:"🍽️", n:"Cena romántica",              d:"Reserva en el restaurante perfecto esta noche.",      hot:false, shops:[{s:"thefork",q:"romantico"}] },
+    { e:"💍", n:"Joya o bisutería fina",        d:"Un detalle que no se olvida.",                        hot:false, shops:[{s:"elcorte",q:"joyeria+regalo+mujer"},{s:"amazon",q:"joya+regalo+mujer+especial"},{s:"zalando",q:"joya+regalo+mujer"}] },
+    { e:"🥂", n:"Cava o champán premium",       d:"Moët, Freixenet Reserva... la noche perfecta.",      hot:false, shops:[{s:"elcorte",q:"cava+champan+regalo+premium"},{s:"amazon",q:"champan+cava+regalo+premium"}] },
+    { e:"🎁", n:"Caja regalo sorpresa",         d:"Una caja curada con detalles para ella.",             hot:false, shops:[{s:"amazon",q:"caja+regalo+sorpresa+mujer"},{s:"elcorte",q:"caja+regalo+mujer+especial"}] },
+    { e:"🧴", n:"Crema o sérum de lujo",        d:"La Mer, Clarins, Lancôme. Capricho de nivel.",       hot:false, shops:[{s:"sephora",q:"crema+lujo+regalo+mujer"},{s:"elcorte",q:"serum+lujo+regalo"},{s:"amazon",q:"crema+lujo+regalo+mujer"}] },
+    { e:"🌸", n:"Experiencia de pareja",        d:"Spa, balneario o escapada de fin de semana.",         hot:true,  shops:[{s:"elcorte",q:"experiencia+pareja+spa+regalo"},{s:"amazon",q:"experiencia+pareja+regalo"}] },
+    { e:"🎀", n:"Bolso o accesorio premium",    d:"Porque un buen bolso nunca decepciona.",              hot:false, shops:[{s:"zalando",q:"bolso+mujer+premium+regalo"},{s:"elcorte",q:"bolso+mujer+regalo+especial"}] },
   ],
   medium: [
-    { e:"🕯️", n:"Velas aromáticas premium",d:"El ambiente lo es todo.", hot:true,               shops:[{s:"amazon",q:"velas+aromaticas+romanticas"},{s:"elcorte",q:"velas+aromaticas+regalo"},{s:"fnac",q:"velas+aromaticas"}] },
-    { e:"💆", n:"Kit de masaje",            d:"Aceites, velas... todo incluido.", hot:true,       shops:[{s:"lovehoney",q:"aceite+masaje+pareja"},{s:"amazon",q:"kit+masaje+pareja+aceites"},{s:"sephora",q:"aceite+masaje+regalo"},{s:"elcorte",q:"kit+masaje+regalo"}] },
-    { e:"🍫", n:"Chocolates premium",       d:"Ferrero, Lindt, Godiva. Siempre funciona.",       shops:[{s:"amazon",q:"chocolates+premium+regalo+mujer"},{s:"elcorte",q:"chocolates+lujo+regalo"}] },
-    { e:"🛁", n:"Set de baño de lujo",      d:"Bombas de baño, sales, cremas.",                  shops:[{s:"sephora",q:"set+bano+regalo+lujo"},{s:"amazon",q:"set+bano+lujo+regalo+mujer"},{s:"elcorte",q:"set+bano+regalo"}] },
+    { e:"🕯️", n:"Velas aromáticas premium",    d:"El ambiente lo es todo.",                            hot:true,  shops:[{s:"amazon",q:"velas+aromaticas+romanticas+regalo"},{s:"elcorte",q:"velas+aromaticas+regalo"},{s:"fnac",q:"velas+aromaticas"}] },
+    { e:"💆", n:"Kit de masaje",               d:"Aceites, velas... todo incluido.",                    hot:true,  shops:[{s:"lovehoney",q:"aceite+masaje+pareja"},{s:"amazon",q:"kit+masaje+pareja+aceites"},{s:"sephora",q:"aceite+masaje+regalo"}] },
+    { e:"🍫", n:"Chocolates premium",           d:"Ferrero, Lindt, Godiva. Siempre funciona.",           hot:false, shops:[{s:"amazon",q:"chocolates+premium+regalo+mujer"},{s:"elcorte",q:"chocolates+lujo+regalo"}] },
+    { e:"🛁", n:"Set de baño de lujo",          d:"Bombas de baño, sales, cremas aromáticas.",          hot:false, shops:[{s:"sephora",q:"set+bano+regalo+lujo"},{s:"amazon",q:"set+bano+lujo+regalo+mujer"},{s:"elcorte",q:"set+bano+regalo"}] },
+    { e:"🍷", n:"Botella de vino especial",     d:"Un Rioja Reserva o un rosado provenzal.",             hot:false, shops:[{s:"elcorte",q:"vino+reserva+regalo+especial"},{s:"amazon",q:"vino+regalo+especial+botella"}] },
+    { e:"🌺", n:"Planta o flores secas deco",   d:"Tendencia total. Dura para siempre.",                 hot:false, shops:[{s:"amazon",q:"flores+secas+decoracion+regalo"},{s:"elcorte",q:"planta+decoracion+regalo+mujer"}] },
+    { e:"📖", n:"Libro que ella quería leer",   d:"Pregúntale o mira su lista de deseos.",              hot:false, shops:[{s:"fnac",q:"libro+bestseller+mujer+2025"},{s:"amazon",q:"libro+regalo+mujer+2025"},{s:"elcorte",q:"libro+regalo+mujer"}] },
+    { e:"🎧", n:"Música o podcast premium",     d:"Airpods, auriculares inalámbricos...",               hot:false, shops:[{s:"amazon",q:"auriculares+regalo+mujer"},{s:"elcorte",q:"auriculares+inalambricos+regalo"},{s:"fnac",q:"auriculares+regalo"}] },
+    { e:"🧖", n:"Sérum facial o mascarilla",    d:"Un capricho de skincare que siempre se agradece.",   hot:false, shops:[{s:"sephora",q:"serum+facial+regalo+mujer"},{s:"amazon",q:"mascarilla+facial+regalo"},{s:"elcorte",q:"serum+regalo+mujer"}] },
+    { e:"🎨", n:"Kit de manualidades o arte",   d:"Si es creativa, esto la enamora.",                   hot:false, shops:[{s:"fnac",q:"kit+manualidades+regalo+mujer"},{s:"amazon",q:"kit+pintura+regalo+adultos"}] },
   ],
   low: [
-    { e:"📚", n:"\"Los 5 lenguajes del amor\"", d:"El libro más vendido sobre parejas.", hot:true, shops:[{s:"amazon",q:"los+5+lenguajes+del+amor"},{s:"fnac",q:"lenguajes+amor+libro"},{s:"elcorte",q:"lenguajes+amor+libro"}] },
-    { e:"🎲", n:"Juego de pareja",           d:"Para una noche diferente en casa.",               shops:[{s:"amazon",q:"juego+pareja+adultos"},{s:"fnac",q:"juego+pareja+adultos"},{s:"elcorte",q:"juego+pareja+regalo"}] },
-    { e:"🌿", n:"Planta o suculenta bonita", d:"Un detalle inesperado que encanta.",               shops:[{s:"amazon",q:"planta+decoracion+regalo+mujer"},{s:"elcorte",q:"planta+regalo+decoracion"}] },
-    { e:"🧘", n:"Sesión de spa",             d:"El regalo más valorado del año.",                  shops:[{s:"elcorte",q:"spa+regalo+experiencia+mujer"},{s:"amazon",q:"vale+spa+regalo+mujer"}] },
-    { e:"💑", n:"¿Le propones una cita?",       d:"Quizás toca renovar la conexión.", hot:true,        shops:[{s:"meetic",q:""},{s:"thefork",q:"romantico+pareja"}] },
+    { e:"📚", n:""Los 5 lenguajes del amor"", d:"El libro más vendido sobre parejas. Invierte en vosotros.", hot:true, shops:[{s:"amazon",q:"los+5+lenguajes+del+amor"},{s:"fnac",q:"lenguajes+amor+libro"},{s:"elcorte",q:"lenguajes+amor+libro"}] },
+    { e:"🎲", n:"Juego de pareja",              d:"Para una noche diferente en casa.",                   hot:true,  shops:[{s:"amazon",q:"juego+pareja+adultos+entretenimiento"},{s:"fnac",q:"juego+pareja+adultos"},{s:"elcorte",q:"juego+pareja+regalo"}] },
+    { e:"🌿", n:"Planta o suculenta bonita",    d:"Un detalle inesperado que siempre encanta.",          hot:false, shops:[{s:"amazon",q:"planta+decoracion+regalo+mujer"},{s:"elcorte",q:"planta+regalo+decoracion"}] },
+    { e:"🧘", n:"Sesión de spa",                d:"El regalo más valorado. Sin segundas intenciones.",  hot:false, shops:[{s:"elcorte",q:"spa+regalo+experiencia+mujer"},{s:"amazon",q:"vale+spa+regalo+mujer"}] },
+    { e:"💑", n:"¿Le propones una cita?",       d:"Quizás toca reconectar desde cero.",                 hot:true,  shops:[{s:"meetic",q:""},{s:"thefork",q:"romantico+pareja"}] },
+    { e:"🎬", n:"Película o serie juntos",      d:"Pon su favorita y cierra el móvil.",                 hot:false, shops:[{s:"amazon",q:"pelicula+romantica+dvd+regalo"},{s:"fnac",q:"pelicula+romantica+blu-ray"}] },
+    { e:"☕", n:"Cápsula de café especial",     d:"Si es cafetera, un detalle cotidiano muy valorado.", hot:false, shops:[{s:"amazon",q:"capsulas+cafe+regalo+gourmet"},{s:"elcorte",q:"cafe+gourmet+regalo"}] },
+    { e:"🍕", n:"Pide su comida favorita",      d:"A veces lo más sencillo es lo más acertado.",        hot:false, shops:[{s:"amazon",q:"pizza+gourmet+regalo+kit"},{s:"elcorte",q:"comida+gourmet+regalo"}] },
+    { e:"🧸", n:"Peluche o detalle nostálgico", d:"Un guiño al pasado que crea conexión.",              hot:false, shops:[{s:"amazon",q:"peluche+regalo+adultos+mujer"},{s:"elcorte",q:"peluche+regalo+especial"}] },
+    { e:"🖼️", n:"Foto enmarcada de vosotros",  d:"El regalo más personal que existe. Sin excusas.",    hot:true,  shops:[{s:"amazon",q:"marco+foto+regalo+pareja+personalizado"},{s:"fnac",q:"marco+foto+regalo+personalizado"}] },
   ],
 };
 
-function getGifts(idx) {
-  if (idx >= 65) return { label:"🔥 Sorpréndela esta noche", sub:"Ideas de regalo para aprovechar el momento", gifts:GIFTS.high };
-  if (idx >= 40) return { label:"🕯️ Inclina la balanza",   sub:"Un detalle puede marcarlo todo",             gifts:GIFTS.medium };
-  return               { label:"💡 Invierte en el futuro",  sub:"Hoy siembra, mañana recoges 😄",             gifts:GIFTS.low };
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
+
+function getGifts(idx) {
+  if (idx >= 65) return { label:"🔥 Sorpréndela esta noche", sub:"Ideas de regalo para aprovechar el momento", gifts: shuffle(GIFT_POOLS.high).slice(0,4) };
+  if (idx >= 40) return { label:"🕯️ Inclina la balanza",   sub:"Un detalle puede marcarlo todo",             gifts: shuffle(GIFT_POOLS.medium).slice(0,4) };
+  return               { label:"💡 Invierte en el futuro",  sub:"Hoy siembra, mañana recoges 😄",             gifts: shuffle(GIFT_POOLS.low).slice(0,4) };
+}
+
+// getGifts now included in GIFT_POOLS block above
 
 // ── CALCULATE ────────────────────────────────────────────────────────────────
 
