@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script defer src="/_vercel/insights/script.js"></script>
 <title>¿Hoy Mojo? — La calculadora que todos necesitan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -189,6 +188,37 @@
 
   input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 
+  /* PRO BANNER */
+  .pro-banner { background: linear-gradient(135deg, #1a0f2e, #0f1a1a); border: 1.5px solid rgba(245,200,66,0.4); border-radius: 24px; padding: 28px 24px; margin-top: 20px; text-align: center; position: relative; overflow: hidden; }
+  .pro-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,107,53,0.05), rgba(245,200,66,0.05)); pointer-events: none; }
+  .pro-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, var(--fire), var(--gold)); border-radius: 20px; padding: 4px 14px; font-size: 10px; font-weight: 800; color: #1a0a00; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .pro-title { font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 3px; margin-bottom: 8px; background: linear-gradient(135deg, var(--fire), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .pro-features { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 14px 0 20px; }
+  .pro-feature { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: rgba(255,255,255,0.7); }
+  .pro-btn { display: inline-block; background: linear-gradient(135deg, var(--fire), var(--gold)); border: none; border-radius: 50px; padding: 16px 40px; font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 3px; color: #1a0a00; cursor: pointer; text-decoration: none; box-shadow: 0 6px 30px rgba(255,107,53,0.35); transition: transform 0.2s, box-shadow 0.2s; width: 100%; }
+  .pro-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(255,107,53,0.45); }
+  .pro-note { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 10px; }
+
+  /* 30-DAY CALENDAR */
+  .pro-calendar { margin-top: 20px; background: linear-gradient(135deg, #1a0f2e, #0f1a0f); border: 1.5px solid rgba(245,200,66,0.3); border-radius: 24px; padding: 24px; }
+  .pro-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .pro-cal-title { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--fire), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .pro-cal-badge { background: linear-gradient(135deg, var(--fire), var(--gold)); border-radius: 12px; padding: 3px 10px; font-size: 10px; font-weight: 800; color: #1a0a00; letter-spacing: 1px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 16px; }
+  .cal-day-header { text-align: center; font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 1px; padding-bottom: 4px; }
+  .cal-day { border-radius: 10px; padding: 7px 3px; text-align: center; cursor: default; transition: transform 0.15s; }
+  .cal-day:hover { transform: scale(1.08); }
+  .cal-day-num { font-size: 12px; font-weight: 600; }
+  .cal-day-idx { font-size: 10px; font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin-top: 2px; }
+  .cal-legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+  .cal-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: rgba(255,255,255,0.4); }
+  .cal-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .best-days { margin-top: 16px; background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 14px; padding: 14px 16px; }
+  .best-days-title { font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 10px; }
+  .best-day-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .best-day-item:last-child { border-bottom: none; }
+
+
   @media(max-width:640px) {
     .nav-links { display: none; }
     .privacy-strip { flex-direction: column; text-align: center; padding: 32px 24px; }
@@ -302,6 +332,12 @@
 
     <!-- GIFTS - outside result card -->
     <div id="giftsSection" style="margin-top:20px"></div>
+
+    <!-- PRO BANNER -->
+    <div id="proBanner" style="display:none"></div>
+
+    <!-- PRO CALENDAR (visible after payment) -->
+    <div id="proCalendar" style="display:none"></div>
 
     <button class="reset-btn" onclick="resetCalc()" id="resetBtn2" style="display:none;margin-top:12px">← Calcular de nuevo</button>
   </div>
@@ -518,7 +554,7 @@ const GIFT_POOLS = {
     { e:"🎨", n:"Kit de manualidades o arte",   d:"Si es creativa, esto la enamora.",                   hot:false, shops:[{s:"fnac",q:"kit+manualidades+regalo+mujer"},{s:"amazon",q:"kit+pintura+regalo+adultos"}] },
   ],
   low: [
-    { e:"📚", n:"Los 5 lenguajes del amor", d:"El libro más vendido sobre parejas. Invierte en vosotros.", hot:true, shops:[{s:"amazon",q:"los+5+lenguajes+del+amor"},{s:"fnac",q:"lenguajes+amor+libro"},{s:"elcorte",q:"lenguajes+amor+libro"}] },
+    { e:"📚", n:'Los 5 lenguajes del amor', d:"El libro más vendido sobre parejas. Invierte en vosotros.", hot:true, shops:[{s:"amazon",q:"los+5+lenguajes+del+amor"},{s:"fnac",q:"lenguajes+amor+libro"},{s:"elcorte",q:"lenguajes+amor+libro"}] },
     { e:"🎲", n:"Juego de pareja",              d:"Para una noche diferente en casa.",                   hot:true,  shops:[{s:"amazon",q:"juego+pareja+adultos+entretenimiento"},{s:"fnac",q:"juego+pareja+adultos"},{s:"elcorte",q:"juego+pareja+regalo"}] },
     { e:"🌿", n:"Planta o suculenta bonita",    d:"Un detalle inesperado que siempre encanta.",          hot:false, shops:[{s:"amazon",q:"planta+decoracion+regalo+mujer"},{s:"elcorte",q:"planta+regalo+decoracion"}] },
     { e:"🧘", n:"Sesión de spa",                d:"El regalo más valorado. Sin segundas intenciones.",  hot:false, shops:[{s:"elcorte",q:"spa+regalo+experiencia+mujer"},{s:"amazon",q:"vale+spa+regalo+mujer"}] },
@@ -702,8 +738,22 @@ function calculate() {
 
   document.getElementById('adviceText').textContent = advice;
 
+  // Store for Pro calendar
+  isMenoGlobal = isMeno;
+  lastBd = bd;
+  lastPd = pd;
+
   // Gifts
   renderGifts(idx);
+
+  // Pro — show calendar if already Pro, otherwise show banner
+  if (checkProStatus()) {
+    renderProCalendar(bd, pd, isMeno);
+    document.getElementById('proBanner').style.display = 'none';
+  } else {
+    renderProBanner();
+    document.getElementById('proCalendar').style.display = 'none';
+  }
 
   document.getElementById('result').style.display = 'block';
   document.getElementById('calcBtn').style.display = 'none';
@@ -764,12 +814,161 @@ function renderGifts(idx) {
 
 function toggleGift(i) { /* shops always visible */ }
 
+
+// ── PRO LOGIC ────────────────────────────────────────────────────────────────
+
+const STRIPE_LINK = 'https://buy.stripe.com/test_14A14m7UkdWygJq3mXgMw00'; // ← sustituir por tu link real
+
+function checkProStatus() {
+  const pro = localStorage.getItem('hoymojo_pro');
+  const ts  = parseInt(localStorage.getItem('hoymojo_pro_ts') || '0');
+  // Pro válido 32 días (ciclo mensual + margen)
+  if (pro === 'true' && Date.now() - ts < 32 * 86400000) return true;
+  return false;
+}
+
+function activatePro() {
+  localStorage.setItem('hoymojo_pro', 'true');
+  localStorage.setItem('hoymojo_pro_ts', Date.now().toString());
+}
+
+// Check URL params on load — Stripe redirects here after payment
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('pro') === 'ok') {
+    activatePro();
+    // Clean URL
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+})();
+
+function generate30Days(bd, pd) {
+  const days = daysSince(bd);
+  return Array.from({ length: 30 }, (_, i) => {
+    const d     = days + i;
+    const cDay  = isMenoGlobal ? null : (((pd + i) % 28) + 28) % 28 || 28;
+    const emo   = bio(d, 28);
+    const fis   = bio(d, 23);
+    const int_  = bio(d, 33);
+    const phase = isMenoGlobal
+      ? { name: 'Sin ciclo', emoji: '🌙', score: 0 }
+      : getCyclePhase(cDay);
+    const raw = isMenoGlobal
+      ? ((emo+1)/2)*0.45 + ((fis+1)/2)*0.30 + ((int_+1)/2)*0.25
+      : phase.score*0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10;
+    const idx   = Math.round(raw * 100);
+    const date  = new Date(Date.now() + i * 86400000);
+    return { i, idx, phase, date, cDay };
+  });
+}
+
+function getDayColor(idx) {
+  if (idx >= 78) return { bg: 'rgba(255,107,53,0.25)', border: 'rgba(255,107,53,0.5)', text: '#ff6b35' };
+  if (idx >= 58) return { bg: 'rgba(245,200,66,0.18)', border: 'rgba(245,200,66,0.4)',  text: '#f5c842' };
+  if (idx >= 38) return { bg: 'rgba(126,200,227,0.12)', border: 'rgba(126,200,227,0.3)', text: '#7ec8e3' };
+  return              { bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.25)', text: '#a78bfa' };
+}
+
+function getDayEmoji(idx) {
+  if (idx >= 78) return '🔥';
+  if (idx >= 58) return '😏';
+  if (idx >= 38) return '🤷';
+  return '🥶';
+}
+
+let isMenoGlobal = false;
+let lastBd = '';
+let lastPd = 0;
+
+function renderProBanner() {
+  const banner = document.getElementById('proBanner');
+  if (!banner) return;
+  banner.style.display = 'block';
+  banner.innerHTML = `
+    <div class="pro-banner">
+      <div class="pro-badge">✨ PRO</div>
+      <div class="pro-title">¿Y LOS PRÓXIMOS 30 DÍAS?</div>
+      <p style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:16px;line-height:1.6">
+        Descubre de un vistazo cuáles son los mejores días del mes.<br>Planifica con antelación.
+      </p>
+      <div class="pro-features">
+        <span class="pro-feature">📅 Calendario 30 días</span>
+        <span class="pro-feature">🔥 Top días destacados</span>
+        <span class="pro-feature">🚫 Sin anuncios</span>
+        <span class="pro-feature">⚡ Acceso instantáneo</span>
+      </div>
+      <a href="${STRIPE_LINK}?client_reference_id=hoymojo" class="pro-btn">
+        🔓 DESBLOQUEAR POR €1.99/MES
+      </a>
+      <p class="pro-note">Cancela cuando quieras · Pago seguro con Stripe</p>
+    </div>`;
+}
+
+function renderProCalendar(bd, pd, isMeno) {
+  const cal = document.getElementById('proCalendar');
+  if (!cal) return;
+  cal.style.display = 'block';
+
+  const days30 = generate30Days(bd, pd);
+  const weekdays = ['D','L','M','X','J','V','S'];
+
+  // Fill empty cells before day 1
+  const startDow = days30[0].date.getDay();
+  let gridHtml = weekdays.map(d => `<div class="cal-day-header">${d}</div>`).join('');
+  for (let i = 0; i < startDow; i++) gridHtml += '<div></div>';
+
+  days30.forEach((day, i) => {
+    const c = getDayColor(day.idx);
+    const isToday = i === 0;
+    gridHtml += `
+      <div class="cal-day" style="background:${c.bg};border:1.5px solid ${isToday ? '#fff' : c.border}">
+        <div class="cal-day-num" style="color:${isToday ? '#fff' : c.text};font-weight:${isToday?800:500}">${day.date.getDate()}</div>
+        <div class="cal-day-idx" style="color:${c.text}">${day.idx}</div>
+      </div>`;
+  });
+
+  // Top 5 best days
+  const top5 = [...days30].sort((a,b) => b.idx - a.idx).slice(0,5);
+  const top5Html = top5.map(d => {
+    const c = getDayColor(d.idx);
+    const label = d.i === 0 ? 'Hoy' : d.date.toLocaleDateString('es-ES', {weekday:'short', day:'numeric', month:'short'});
+    return `<div class="best-day-item">
+      <span style="font-size:13px;color:rgba(255,255,255,0.8)">${getDayEmoji(d.idx)} ${label}</span>
+      <span style="font-family:'Bebas Neue',cursive;font-size:18px;color:${c.text}">${d.idx}/100</span>
+    </div>`;
+  }).join('');
+
+  cal.innerHTML = `
+    <div class="pro-calendar">
+      <div class="pro-cal-header">
+        <div class="pro-cal-title">📅 PRÓXIMOS 30 DÍAS</div>
+        <div class="pro-cal-badge">PRO</div>
+      </div>
+      <div class="cal-grid">${gridHtml}</div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#ff6b35"></div>🔥 HOY MOJO (78+)</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#f5c842"></div>😏 Buenas (58+)</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#7ec8e3"></div>🤷 Fifty (38+)</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#a78bfa"></div>🥶 No (0-37)</div>
+      </div>
+      <div class="best-days">
+        <div class="best-days-title">🏆 Top 5 mejores días</div>
+        ${top5Html}
+      </div>
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.25);margin-top:14px">
+        ¿Quieres cancelar? Escríbenos a hola@hoy-mojo.com
+      </p>
+    </div>`;
+}
+
 function resetCalc() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('calcBtn').style.display = 'block';
   document.getElementById('birthDate').value = '';
   document.getElementById('periodDays').value = '';
   document.getElementById('calcBtn').disabled = true;
+  document.getElementById('proBanner').style.display = 'none';
+  document.getElementById('proCalendar').style.display = 'none';
   document.getElementById('calcSection') && document.querySelector('.calc-section').scrollIntoView({behavior:'smooth'});
 }
 
@@ -788,3 +987,4 @@ document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
+
