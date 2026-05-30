@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>  
 <title>¿Hoy Mojo? — La calculadora que todos necesitan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -609,14 +609,70 @@ function calculate() {
   document.getElementById('statIdxBar').style.width = idx + '%';
   document.getElementById('statIdxBar').style.background = v.color;
 
-  // Advice
-  const advices = {
-    high:   "Las estrellas alineadas no son excusa para olvidar los detalles. Un gesto bonito sigue siendo el mejor afrodisíaco. 😉",
-    mid:    "El momento es favorable pero no garantizado. Un poco de romanticismo puede inclinar la balanza. 🕯️",
-    mid2:   "Ni el mejor bioritmo sustituye a la comunicación. Conecta emocionalmente primero. 💬",
-    low:    "El cuerpo pide descanso. Una tarde de sofá, peli y manta puede ser exactamente lo que necesita. 🛋️"
+  // Advice — random from pool per level
+  const ADVICE = {
+    high: [
+      "Las estrellas alineadas no son excusa para olvidar los detalles. Un gesto bonito sigue siendo el mejor afrodisíaco. 😉",
+      "Esta noche el universo está de tu parte. Pero el universo no reserva mesa — tú sí. 🍷",
+      "Bioritmo en máximos. Ahora solo falta que hayas prestado atención últimamente. 😏",
+      "Todo el viento a favor. No lo desperdicies con el móvil en la mano. 📵",
+      "Las condiciones son perfectas. Un masaje en los hombros puede ser el mejor aperitivo. 💆",
+      "Momento dorado. Olvídate de Netflix esta noche y pon toda tu atención donde hay que ponerla. 🎯",
+      "El ciclo dice que sí. Tu siguiente movimiento importa — hazlo con intención. ✨",
+      "Todo apunta bien. Y si encima has fregado los platos sin que te lo pidieran... imparable. 🍽️",
+    ],
+    mid: [
+      "El momento es favorable pero no garantizado. Un poco de romanticismo puede inclinar la balanza. 🕯️",
+      "Las condiciones son buenas pero no excepcionales. Un detalle inesperado puede hacer la diferencia. 🌹",
+      "Terreno favorable. Una cena, una canción, o simplemente apagar el móvil y escuchar. 🎵",
+      "El bioritmo está animado. Propón algo distinto esta noche — salir a dar un paseo también cuenta. 🌙",
+      "Buenas vibraciones. El romanticismo no caduca — rescata algo que funcionaba antes. 💌",
+      "La energía acompaña. No hace falta un plan perfecto, solo estar presente de verdad. 🙌",
+      "El momento ayuda. Recuerda: la seducción empieza horas antes, no cinco minutos antes. ⏰",
+      "Condiciones favorables. Un mensaje bonito a media tarde puede preparar el terreno. 📱",
+    ],
+    mid2: [
+      "Ni el mejor bioritmo sustituye a la comunicación. Conecta emocionalmente primero. 💬",
+      "Zona neutral. Hoy más que nunca, escuchar vale más que cualquier otra estrategia. 👂",
+      "Fifty-fifty. La diferencia la hace cómo llegues a casa — con energía o con el piloto automático. 🚗",
+      "El bioritmo no tira ni para arriba ni para abajo. Tu actitud de esta tarde lo decidirá. 🎲",
+      "Momento ambiguo. Pregunta cómo ha ido el día y escucha de verdad — es más poderoso de lo que crees. 💭",
+      "Las circunstancias no ayudan ni perjudican. Toca poner de tu parte. 🤝",
+      "Terreno neutral. Si hay tensión acumulada, hoy es buen día para despejarla con calma. ☕",
+      "Zona gris. Una copa de vino y una conversación sin pantallas pueden cambiar el ambiente. 🍷",
+    ],
+    low: [
+      "El cuerpo pide descanso. Una tarde de sofá, peli y manta puede ser exactamente lo que necesita. 🛋️",
+      "Hoy los astros piden pausa. Un baño caliente y sin preguntas puede ser el mejor regalo. 🛁",
+      "Bioritmo bajo. Aprovecha para ser el apoyo que necesita, sin segundas intenciones. 🤗",
+      "El universo dice 'no por hoy'. Acepta con elegancia y gana puntos para mañana. 📈",
+      "Días así son para cuidar, no para conquistar. Un té caliente y escucharla hablar. 🍵",
+      "La energía está baja. Hoy la mejor jugada es no jugar — y eso también es inteligencia emocional. 🧠",
+      "Ciclo en reposo. Pide una pizza, pon su serie favorita y déjala decidir. Pizza gana. 🍕",
+      "Momento para recargar. Mañana puede ser muy diferente. La paciencia también es seducción. ⏳",
+    ],
+    meno: [
+      "Sin ciclo activo, los bioritmos mandan. Hoy la conexión emocional es la clave. 💜",
+      "El cálculo se basa en energía pura. Un ambiente tranquilo y sin presión es siempre una buena apuesta. 🕯️",
+      "Los bioritmos hablan — el cuerpo también tiene sus ritmos sin ciclo. Escúchalo. 🌙",
+      "Sin picos hormonales predecibles, el estado de ánimo del día importa más que nunca. ¿Cómo está hoy? 💬",
+      "La energía personal marca el camino. Hoy, la espontaneidad puede ser tu mejor aliada. ✨",
+      "Momento para conectar sin expectativas. A veces eso es lo más poderoso. 🤝",
+    ]
   };
-  document.getElementById('adviceText').textContent = idx>=78 ? advices.high : idx>=58 ? advices.mid : idx>=38 ? advices.mid2 : advices.low;
+
+  function pickAdvice(pool) {
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  let advice;
+  if (isMeno)        advice = pickAdvice(ADVICE.meno);
+  else if (idx>=78)  advice = pickAdvice(ADVICE.high);
+  else if (idx>=58)  advice = pickAdvice(ADVICE.mid);
+  else if (idx>=38)  advice = pickAdvice(ADVICE.mid2);
+  else               advice = pickAdvice(ADVICE.low);
+
+  document.getElementById('adviceText').textContent = advice;
 
   // Gifts
   renderGifts(idx);
