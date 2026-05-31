@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script defer src="/_vercel/insights/script.js"></script>
 <title>¿Hoy Mojo? — La calculadora que todos necesitan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -373,14 +372,14 @@
       </div>
     </div>
 
-    <!-- GIFTS - outside result card -->
-    <div id="giftsSection" style="margin-top:20px"></div>
-
-    <!-- PRO BANNER -->
+    <!-- PRO BANNER — shown before gifts -->
     <div id="proBanner" style="display:none"></div>
 
     <!-- PRO CALENDAR (visible after payment) -->
     <div id="proCalendar" style="display:none"></div>
+
+    <!-- GIFTS - shown after Pro banner -->
+    <div id="giftsSection" style="margin-top:20px"></div>
 
     <button class="reset-btn" onclick="resetCalc()" id="resetBtn2" style="display:none;margin-top:12px">← Calcular de nuevo</button>
   </div>
@@ -803,10 +802,7 @@ function calculate() {
   lastBd = bd;
   lastPd = hasCycle ? pd : 0;
 
-  // Gifts
-  renderGifts(idx);
-
-  // Pro — show calendar if already Pro, otherwise show banner
+  // Pro — show BEFORE gifts so user sees it immediately
   if (checkProStatus()) {
     renderProCalendar(bd, pd, isMeno);
     document.getElementById('proBanner').style.display = 'none';
@@ -814,6 +810,9 @@ function calculate() {
     renderProBanner();
     document.getElementById('proCalendar').style.display = 'none';
   }
+
+  // Gifts — shown after Pro banner
+  renderGifts(idx);
 
   document.getElementById('result').style.display = 'block';
   document.getElementById('calcBtn').style.display = 'none';
@@ -1079,5 +1078,6 @@ document.getElementById('periodDays').addEventListener('input', updateCalcBtn);
 const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
 document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
