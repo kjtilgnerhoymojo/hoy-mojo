@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script defer src="/_vercel/insights/script.js"></script>  
+<script defer src="/_vercel/insights/script.js"></script>
 <title>¿Hoy Mojo? — La calculadora que todos necesitan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     --dark2:  #111118;
     --glass:  rgba(255,255,255,0.05);
     --border: rgba(255,255,255,0.09);
-    --muted:  rgba(255,255,255,0.45);
+    --muted:  rgba(255,255,255,0.75);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -51,7 +51,7 @@
   .hero-sub { font-size: clamp(16px, 2.5vw, 20px); color: var(--muted); max-width: 500px; line-height: 1.7; margin: 24px auto 36px; animation: fadeUp 0.7s ease 0.35s both; }
   .hero-btn { display: inline-block; background: linear-gradient(135deg, var(--fire), var(--gold)); border: none; border-radius: 50px; padding: 18px 44px; font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 3px; color: #1a0a00; cursor: pointer; text-decoration: none; box-shadow: 0 8px 40px rgba(255,107,53,0.35); transition: transform 0.2s, box-shadow 0.2s; animation: fadeUp 0.7s ease 0.5s both; }
   .hero-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 50px rgba(255,107,53,0.45); }
-  .hero-note { margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 0.5px; animation: fadeUp 0.7s ease 0.65s both; }
+  .hero-note { margin-top: 18px; font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 0.5px; animation: fadeUp 0.7s ease 0.65s both; }
 
   /* CALCULATOR SECTION */
   .calc-section { padding: 80px 24px; max-width: 520px; margin: 0 auto; }
@@ -70,31 +70,31 @@
   .result-card { margin-top: 28px; border-radius: 24px; padding: 32px 24px; text-align: center; position: relative; overflow: visible; transition: all 0.5s; }
   .result-emoji { font-size: 56px; margin-bottom: 10px; }
   .result-title { font-family: 'Bebas Neue', cursive; font-size: 52px; letter-spacing: 4px; line-height: 1; margin-bottom: 8px; }
-  .result-sub { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 28px; }
+  .result-sub { font-size: 16px; color: rgba(255,255,255,0.9); margin-bottom: 28px; }
 
   /* GAUGE */
   .gauge-wrap { display: flex; justify-content: center; margin: 8px 0 24px; }
   .gauge-svg { transform: rotate(-90deg); }
   .gauge-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .gauge-num { font-family: 'Bebas Neue', cursive; font-size: 44px; line-height: 1; letter-spacing: 2px; }
-  .gauge-of { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 3px; }
+  .gauge-of { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 3px; }
   .gauge-container { position: relative; width: 170px; height: 170px; }
 
   .phase-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border-radius: 30px; padding: 8px 20px; font-size: 14px; font-weight: 600; margin-bottom: 10px; }
-  .phase-hint { font-style: italic; font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
+  .phase-hint { font-style: italic; font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 24px; }
 
   /* MINI STATS */
   .stats-row { display: flex; gap: 10px; margin-bottom: 20px; }
   .stat-box { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 10px; text-align: center; }
   .stat-val { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 1px; }
-  .stat-lbl { font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 1px; margin-top: 3px; }
+  .stat-lbl { font-size: 9px; color: rgba(255,255,255,0.6); letter-spacing: 1px; margin-top: 3px; }
   .stat-bar { margin-top: 6px; height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
   .stat-fill { height: 100%; border-radius: 2px; }
 
   /* ADVICE */
   .advice-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 16px 18px; text-align: left; margin-bottom: 20px; }
-  .advice-label { font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.25); text-transform: uppercase; margin-bottom: 8px; }
-  .advice-text { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.7; }
+  .advice-label { font-size: 10px; letter-spacing: 2px; color: rgba(255,255,255,0.6); text-transform: uppercase; margin-bottom: 8px; }
+  .advice-text { font-size: 13px; color: rgba(255,255,255,0.92); line-height: 1.7; }
 
   /* GIFTS */
   .gifts-header { border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; gap: 12px; margin-bottom: 12px; background: linear-gradient(135deg, #1a1428, #0e0a18); border: 1px solid rgba(255,255,255,0.1); }
@@ -109,13 +109,13 @@
   .gift-name { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
   .gift-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
   .gift-top { font-size: 9px; background: var(--fire); color: #fff; border-radius: 6px; padding: 2px 7px; font-weight: 700; }
-  .gift-chevron { font-size: 12px; color: rgba(255,255,255,0.3); transition: transform 0.2s; }
+  .gift-chevron { font-size: 12px; color: rgba(255,255,255,0.6); transition: transform 0.2s; }
   .gift-shops { display: flex; padding: 4px 14px 14px; flex-wrap: wrap; gap: 8px; }
   .shop-btn { display: inline-flex; align-items: center; gap: 6px; border-radius: 20px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; transition: opacity 0.15s; white-space: nowrap; }
   .shop-btn:hover { opacity: 0.8; }
 
   /* RESET BTN */
-  .reset-btn { width: 100%; margin-top: 16px; background: transparent; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 13px; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; font-family: 'Outfit', sans-serif; }
+  .reset-btn { width: 100%; margin-top: 16px; background: transparent; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 13px; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.75); cursor: pointer; transition: all 0.2s; font-family: 'Outfit', sans-serif; }
   .reset-btn:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
 
   /* HOW IT WORKS */
@@ -140,10 +140,10 @@
   .formula-row { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
   .formula-pill { border-radius: 50px; padding: 10px 20px; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .formula-pill-pct { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 1px; }
-  .formula-op { font-size: 22px; color: rgba(255,255,255,0.2); }
+  .formula-op { font-size: 22px; color: rgba(255,255,255,0.5); }
   .formula-result { display: flex; align-items: center; gap: 10px; margin-top: 24px; background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25); border-radius: 16px; padding: 14px 20px; }
   .formula-result-icon { font-size: 24px; }
-  .formula-result-text { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5; text-align: left; }
+  .formula-result-text { font-size: 14px; color: rgba(255,255,255,0.88); line-height: 1.5; text-align: left; }
 
   /* VERDICTS */
   .verdicts-section { padding: 60px 24px; max-width: 900px; margin: 0 auto; }
@@ -177,7 +177,7 @@
   .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
   .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: #fff; }
-  .footer-copy { font-size: 11px; color: rgba(255,255,255,0.18); }
+  .footer-copy { font-size: 11px; color: rgba(255,255,255,0.5); }
 
   /* ANIMATIONS */
   @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
@@ -189,16 +189,28 @@
 
   input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 
+  /* PROFILE SELECTOR */
+  .profile-selector { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .profile-option { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 16px; cursor: pointer; transition: all 0.2s; }
+  .profile-option:hover { border-color: rgba(255,107,53,0.4); background: rgba(255,107,53,0.06); }
+  .profile-option.selected { border-color: var(--fire); background: rgba(255,107,53,0.1); }
+  .profile-option input[type="radio"] { display: none; }
+  .profile-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .profile-option.selected .profile-dot { border-color: var(--fire); background: var(--fire); }
+  .profile-option.selected .profile-dot::after { content: ''; width: 6px; height: 6px; background: #fff; border-radius: 50%; }
+  .profile-label { font-size: 14px; color: rgba(255,255,255,0.95); }
+  .profile-emoji { font-size: 18px; }
+
   /* PRO BANNER */
   .pro-banner { background: linear-gradient(135deg, #1a0f2e, #0f1a1a); border: 1.5px solid rgba(245,200,66,0.4); border-radius: 24px; padding: 28px 24px; margin-top: 20px; text-align: center; position: relative; overflow: hidden; }
   .pro-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,107,53,0.05), rgba(245,200,66,0.05)); pointer-events: none; }
   .pro-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, var(--fire), var(--gold)); border-radius: 20px; padding: 4px 14px; font-size: 10px; font-weight: 800; color: #1a0a00; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
   .pro-title { font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 3px; margin-bottom: 8px; background: linear-gradient(135deg, var(--fire), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .pro-features { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 14px 0 20px; }
-  .pro-feature { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: rgba(255,255,255,0.7); }
+  .pro-feature { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 12px; font-size: 12px; color: rgba(255,255,255,0.9); }
   .pro-btn { display: inline-block; background: linear-gradient(135deg, var(--fire), var(--gold)); border: none; border-radius: 50px; padding: 16px 40px; font-family: 'Bebas Neue', cursive; font-size: 20px; letter-spacing: 3px; color: #1a0a00; cursor: pointer; text-decoration: none; box-shadow: 0 6px 30px rgba(255,107,53,0.35); transition: transform 0.2s, box-shadow 0.2s; width: 100%; }
   .pro-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(255,107,53,0.45); }
-  .pro-note { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 10px; }
+  .pro-note { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 10px; }
 
   /* 30-DAY CALENDAR */
   .pro-calendar { margin-top: 20px; background: linear-gradient(135deg, #1a0f2e, #0f1a0f); border: 1.5px solid rgba(245,200,66,0.3); border-radius: 24px; padding: 24px; }
@@ -206,16 +218,16 @@
   .pro-cal-title { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 2px; background: linear-gradient(135deg, var(--fire), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .pro-cal-badge { background: linear-gradient(135deg, var(--fire), var(--gold)); border-radius: 12px; padding: 3px 10px; font-size: 10px; font-weight: 800; color: #1a0a00; letter-spacing: 1px; }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 16px; }
-  .cal-day-header { text-align: center; font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 1px; padding-bottom: 4px; }
+  .cal-day-header { text-align: center; font-size: 9px; color: rgba(255,255,255,0.6); letter-spacing: 1px; padding-bottom: 4px; }
   .cal-day { border-radius: 10px; padding: 7px 3px; text-align: center; cursor: default; transition: transform 0.15s; }
   .cal-day:hover { transform: scale(1.08); }
   .cal-day-num { font-size: 12px; font-weight: 600; }
   .cal-day-idx { font-size: 10px; font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin-top: 2px; }
   .cal-legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
-  .cal-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: rgba(255,255,255,0.4); }
+  .cal-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: rgba(255,255,255,0.7); }
   .cal-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
   .best-days { margin-top: 16px; background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); border-radius: 14px; padding: 14px 16px; }
-  .best-days-title { font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 10px; }
+  .best-days-title { font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.65); text-transform: uppercase; margin-bottom: 10px; }
   .best-day-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
   .best-day-item:last-child { border-bottom: none; }
 
@@ -258,11 +270,41 @@
     <div class="calc-title">🔮 CALCULADORA</div>
     <div class="calc-sub">Solo dos datos. Resultado inmediato.</div>
 
+    <!-- PROFILE SELECTOR -->
+    <div style="margin-bottom:20px">
+      <label class="field-label">¿Cómo es tu pareja?</label>
+      <div class="profile-selector" id="profileSelector">
+        <div class="profile-option" onclick="selectProfile('female_cycle')" id="opt_female_cycle">
+          <div class="profile-dot"></div>
+          <span class="profile-emoji">🌸</span>
+          <span class="profile-label">Mujer con ciclo menstrual</span>
+        </div>
+        <div class="profile-option" onclick="selectProfile('female_no_cycle')" id="opt_female_no_cycle">
+          <div class="profile-dot"></div>
+          <span class="profile-emoji">🌙</span>
+          <span class="profile-label">Mujer sin ciclo (menopausia, anticonceptivos...)</span>
+        </div>
+        <div class="profile-option" onclick="selectProfile('male')" id="opt_male">
+          <div class="profile-dot"></div>
+          <span class="profile-emoji">⚡</span>
+          <span class="profile-label">Hombre</span>
+        </div>
+        <div class="profile-option" onclick="selectProfile('other')" id="opt_other">
+          <div class="profile-dot"></div>
+          <span class="profile-emoji">✨</span>
+          <span class="profile-label">Prefiero no especificar</span>
+        </div>
+      </div>
+    </div>
+
     <label class="field-label">Fecha de nacimiento de tu pareja</label>
     <input type="date" class="field-input" id="birthDate" max="2008-01-01" min="1950-01-01">
 
-    <label class="field-label">¿Hace cuántos días tuvo la regla? <span style="color:rgba(255,255,255,0.3);font-size:10px">(pon 90+ si no hay ciclo regular)</span></label>
-    <input type="number" class="field-input" id="periodDays" min="1" max="999" placeholder="Ej: 14  (o 90+ si no hay ciclo)">
+    <!-- Period field — only shown for female_cycle -->
+    <div id="periodField" style="display:none">
+      <label class="field-label">¿Hace cuántos días tuvo la regla?</label>
+      <input type="number" class="field-input" id="periodDays" min="1" max="999" placeholder="Ej: 14">
+    </div>
 
     <button class="calc-btn" id="calcBtn" onclick="calculate()" disabled>🔮 CALCULAR</button>
 
@@ -537,10 +579,10 @@ const GIFT_POOLS = {
     { e:"🍽️", n:"Cena romántica",              d:"Reserva en el restaurante perfecto esta noche.",      hot:false, shops:[{s:"thefork",q:"romantico"}] },
     { e:"💍", n:"Joya o bisutería fina",        d:"Un detalle que no se olvida.",                        hot:false, shops:[{s:"elcorte",q:"joyeria+regalo+mujer"},{s:"amazon",q:"joya+regalo+mujer+especial"},{s:"zalando",q:"joya+regalo+mujer"}] },
     { e:"🥂", n:"Cava o champán premium",       d:"Moët, Freixenet Reserva... la noche perfecta.",      hot:false, shops:[{s:"elcorte",q:"cava+champan+regalo+premium"},{s:"amazon",q:"champan+cava+regalo+premium"}] },
-    { e:"🎁", n:"Caja regalo sorpresa",         d:"Una caja curada con detalles para ella.",             hot:false, shops:[{s:"amazon",q:"caja+regalo+sorpresa+mujer"},{s:"elcorte",q:"caja+regalo+mujer+especial"}] },
+    { e:"🎁", n:"Caja regalo sorpresa",         d:"Una caja curada con detalles para tu pareja.",             hot:false, shops:[{s:"amazon",q:"caja+regalo+sorpresa+mujer"},{s:"elcorte",q:"caja+regalo+mujer+especial"}] },
     { e:"🧴", n:"Crema o sérum de lujo",        d:"La Mer, Clarins, Lancôme. Capricho de nivel.",       hot:false, shops:[{s:"sephora",q:"crema+lujo+regalo+mujer"},{s:"elcorte",q:"serum+lujo+regalo"},{s:"amazon",q:"crema+lujo+regalo+mujer"}] },
     { e:"🌸", n:"Experiencia de pareja",        d:"Spa, balneario o escapada de fin de semana.",         hot:true,  shops:[{s:"elcorte",q:"experiencia+pareja+spa+regalo"},{s:"amazon",q:"experiencia+pareja+regalo"}] },
-    { e:"🎀", n:"Bolso o accesorio premium",    d:"Porque un buen bolso nunca decepciona.",              hot:false, shops:[{s:"zalando",q:"bolso+mujer+premium+regalo"},{s:"elcorte",q:"bolso+mujer+regalo+especial"}] },
+    { e:"🎀", n:"Bolso o accesorio premium",    d:"Porque un buen detalle nunca decepciona.",              hot:false, shops:[{s:"zalando",q:"bolso+mujer+premium+regalo"},{s:"elcorte",q:"bolso+mujer+regalo+especial"}] },
   ],
   medium: [
     { e:"🕯️", n:"Velas aromáticas premium",    d:"El ambiente lo es todo.",                            hot:true,  shops:[{s:"amazon",q:"velas+aromaticas+romanticas+regalo"},{s:"elcorte",q:"velas+aromaticas+regalo"},{s:"fnac",q:"velas+aromaticas"}] },
@@ -549,10 +591,10 @@ const GIFT_POOLS = {
     { e:"🛁", n:"Set de baño de lujo",          d:"Bombas de baño, sales, cremas aromáticas.",          hot:false, shops:[{s:"sephora",q:"set+bano+regalo+lujo"},{s:"amazon",q:"set+bano+lujo+regalo+mujer"},{s:"elcorte",q:"set+bano+regalo"}] },
     { e:"🍷", n:"Botella de vino especial",     d:"Un Rioja Reserva o un rosado provenzal.",             hot:false, shops:[{s:"elcorte",q:"vino+reserva+regalo+especial"},{s:"amazon",q:"vino+regalo+especial+botella"}] },
     { e:"🌺", n:"Planta o flores secas deco",   d:"Tendencia total. Dura para siempre.",                 hot:false, shops:[{s:"amazon",q:"flores+secas+decoracion+regalo"},{s:"elcorte",q:"planta+decoracion+regalo+mujer"}] },
-    { e:"📖", n:"Libro que ella quería leer",   d:"Pregúntale o mira su lista de deseos.",              hot:false, shops:[{s:"fnac",q:"libro+bestseller+mujer+2025"},{s:"amazon",q:"libro+regalo+mujer+2025"},{s:"elcorte",q:"libro+regalo+mujer"}] },
+    { e:"📖", n:"Libro que quería leer",   d:"Pregúntale o mira su lista de deseos. 😊",              hot:false, shops:[{s:"fnac",q:"libro+bestseller+mujer+2025"},{s:"amazon",q:"libro+regalo+mujer+2025"},{s:"elcorte",q:"libro+regalo+mujer"}] },
     { e:"🎧", n:"Música o podcast premium",     d:"Airpods, auriculares inalámbricos...",               hot:false, shops:[{s:"amazon",q:"auriculares+regalo+mujer"},{s:"elcorte",q:"auriculares+inalambricos+regalo"},{s:"fnac",q:"auriculares+regalo"}] },
     { e:"🧖", n:"Sérum facial o mascarilla",    d:"Un capricho de skincare que siempre se agradece.",   hot:false, shops:[{s:"sephora",q:"serum+facial+regalo+mujer"},{s:"amazon",q:"mascarilla+facial+regalo"},{s:"elcorte",q:"serum+regalo+mujer"}] },
-    { e:"🎨", n:"Kit de manualidades o arte",   d:"Si es creativa, esto la enamora.",                   hot:false, shops:[{s:"fnac",q:"kit+manualidades+regalo+mujer"},{s:"amazon",q:"kit+pintura+regalo+adultos"}] },
+    { e:"🎨", n:"Kit de manualidades o arte",   d:"Si es creativa, esto le encanta.",                   hot:false, shops:[{s:"fnac",q:"kit+manualidades+regalo+mujer"},{s:"amazon",q:"kit+pintura+regalo+adultos"}] },
   ],
   low: [
     { e:"📚", n:'Los 5 lenguajes del amor', d:"El libro más vendido sobre parejas. Invierte en vosotros.", hot:true, shops:[{s:"amazon",q:"los+5+lenguajes+del+amor"},{s:"fnac",q:"lenguajes+amor+libro"},{s:"elcorte",q:"lenguajes+amor+libro"}] },
@@ -560,9 +602,9 @@ const GIFT_POOLS = {
     { e:"🌿", n:"Planta o suculenta bonita",    d:"Un detalle inesperado que siempre encanta.",          hot:false, shops:[{s:"amazon",q:"planta+decoracion+regalo+mujer"},{s:"elcorte",q:"planta+regalo+decoracion"}] },
     { e:"🧘", n:"Sesión de spa",                d:"El regalo más valorado. Sin segundas intenciones.",  hot:false, shops:[{s:"elcorte",q:"spa+regalo+experiencia+mujer"},{s:"amazon",q:"vale+spa+regalo+mujer"}] },
     { e:"💑", n:"¿Le propones una cita?",       d:"Quizás toca reconectar desde cero.",                 hot:true,  shops:[{s:"meetic",q:""},{s:"thefork",q:"romantico+pareja"}] },
-    { e:"🎬", n:"Película o serie juntos",      d:"Pon su favorita y cierra el móvil.",                 hot:false, shops:[{s:"amazon",q:"pelicula+romantica+dvd+regalo"},{s:"fnac",q:"pelicula+romantica+blu-ray"}] },
-    { e:"☕", n:"Cápsula de café especial",     d:"Si es cafetera, un detalle cotidiano muy valorado.", hot:false, shops:[{s:"amazon",q:"capsulas+cafe+regalo+gourmet"},{s:"elcorte",q:"cafe+gourmet+regalo"}] },
-    { e:"🍕", n:"Pide su comida favorita",      d:"A veces lo más sencillo es lo más acertado.",        hot:false, shops:[{s:"amazon",q:"pizza+gourmet+regalo+kit"},{s:"elcorte",q:"comida+gourmet+regalo"}] },
+    { e:"🎬", n:"Película o serie juntos",      d:"Pon la favorita de tu pareja y cierra el móvil.",                 hot:false, shops:[{s:"amazon",q:"pelicula+romantica+dvd+regalo"},{s:"fnac",q:"pelicula+romantica+blu-ray"}] },
+    { e:"☕", n:"Cápsula de café especial",     d:"Un detalle cotidiano muy valorado.", hot:false, shops:[{s:"amazon",q:"capsulas+cafe+regalo+gourmet"},{s:"elcorte",q:"cafe+gourmet+regalo"}] },
+    { e:"🍕", n:"Pide su comida favorita 🍕",      d:"A veces lo más sencillo es lo más acertado. 🍕",        hot:false, shops:[{s:"amazon",q:"pizza+gourmet+regalo+kit"},{s:"elcorte",q:"comida+gourmet+regalo"}] },
     { e:"🧸", n:"Peluche o detalle nostálgico", d:"Un guiño al pasado que crea conexión.",              hot:false, shops:[{s:"amazon",q:"peluche+regalo+adultos+mujer"},{s:"elcorte",q:"peluche+regalo+especial"}] },
     { e:"🖼️", n:"Foto enmarcada de vosotros",  d:"El regalo más personal que existe. Sin excusas.",    hot:true,  shops:[{s:"amazon",q:"marco+foto+regalo+pareja+personalizado"},{s:"fnac",q:"marco+foto+regalo+personalizado"}] },
   ],
@@ -578,8 +620,8 @@ function shuffle(arr) {
 }
 
 function getGifts(idx) {
-  if (idx >= 65) return { label:"🔥 Sorpréndela esta noche", sub:"Ideas de regalo para aprovechar el momento", gifts: shuffle(GIFT_POOLS.high).slice(0,4) };
-  if (idx >= 40) return { label:"🕯️ Inclina la balanza",   sub:"Un detalle puede marcarlo todo",             gifts: shuffle(GIFT_POOLS.medium).slice(0,4) };
+  if (idx >= 65) return { label:"🔥 Sorprende a tu pareja esta noche", sub:"Ideas de regalo para aprovechar el momento", gifts: shuffle(GIFT_POOLS.high).slice(0,4) };
+  if (idx >= 40) return { label:"🕯️ Inclina la balanza",   sub:"Un detalle puede marcarlo todo",              gifts: shuffle(GIFT_POOLS.medium).slice(0,4) };
   return               { label:"💡 Invierte en el futuro",  sub:"Hoy siembra, mañana recoges 😄",             gifts: shuffle(GIFT_POOLS.low).slice(0,4) };
 }
 
@@ -588,22 +630,36 @@ function getGifts(idx) {
 // ── CALCULATE ────────────────────────────────────────────────────────────────
 
 function calculate() {
-  const bd  = document.getElementById('birthDate').value;
-  const pd  = parseInt(document.getElementById('periodDays').value);
-  if (!bd || isNaN(pd) || pd < 1) return;
-  const isMeno = pd > 60;
+  const bd      = document.getElementById('birthDate').value;
+  const profile = window.selectedProfile || '';
+  if (!bd || !profile) return;
+
+  // Period only needed for female_cycle
+  const hasCycle = profile === 'female_cycle';
+  const pd       = hasCycle ? parseInt(document.getElementById('periodDays').value) : 0;
+  if (hasCycle && (isNaN(pd) || pd < 1)) return;
+
+  // isMeno: no cycle available
+  const isMeno = !hasCycle;
 
   const days  = daysSince(bd);
   const emo   = bio(days, 28);
   const fis   = bio(days, 23);
   const int_  = bio(days, 33);
-  const cDay  = isMeno ? null : (((pd % 28) + 28) % 28 || 28);
-  const phase = isMeno ? { name:"Sin ciclo activo", emoji:"🌙", score:0, hint:"Cálculo basado en bioritmos personales" } : getCyclePhase(cDay);
-  // Menopause: redistribute cycle weight to biorhythms (45% emo, 30% fis, 25% int)
-  // Normal: 50% cycle + 25% emo + 15% fis + 10% int
-  const raw   = isMeno
-    ? ((emo+1)/2)*0.45 + ((fis+1)/2)*0.30 + ((int_+1)/2)*0.25
-    : phase.score * 0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10;
+  const cDay  = hasCycle ? (((pd % 28) + 28) % 28 || 28) : null;
+  const phase = hasCycle
+    ? getCyclePhase(cDay)
+    : { name: profile === 'male' ? 'Bioritmos personales' : 'Sin ciclo activo',
+        emoji: profile === 'male' ? '⚡' : '🌙',
+        score: 0,
+        hint: profile === 'male' ? 'Cálculo basado en bioritmos personales' : 'Cálculo basado en bioritmos personales' };
+
+  // Weights:
+  // female_cycle:    50% cycle + 25% emo + 15% fis + 10% int
+  // everything else: 45% emo  + 30% fis + 25% int  (no cycle)
+  const raw = hasCycle
+    ? phase.score * 0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10
+    : ((emo+1)/2)*0.45   + ((fis+1)/2)*0.30  + ((int_+1)/2)*0.25;
   const idx   = Math.round(raw * 100);
   const emoP  = Math.round(((emo+1)/2)*100);
   const fisP  = Math.round(((fis+1)/2)*100);
@@ -648,16 +704,19 @@ function calculate() {
   const timer = setInterval(() => { cur = Math.min(cur+2, idx); gn.textContent = cur; if(cur>=idx) clearInterval(timer); }, 20);
 
   // Phase
-  document.getElementById('phaseBadge').textContent = isMeno ? `${phase.emoji} ${phase.name}` : `${phase.emoji} ${phase.name} · Día ${cDay} del ciclo`;
+  document.getElementById('phaseBadge').textContent = hasCycle ? `${phase.emoji} ${phase.name} · Día ${cDay} del ciclo` : `${phase.emoji} ${phase.name}`;
   document.getElementById('phaseHint').textContent = `"${phase.hint}"`;
 
-  // Menopausal note
+  // Profile note
   const menoNote = document.getElementById('menoNote');
-  if (isMeno) {
-    menoNote.style.display = 'block';
-    menoNote.innerHTML = `<span style="font-size:18px">🌙</span><div><b style="color:#a78bfa">Modo sin ciclo activo</b><br>
-    No se detecta un ciclo menstrual regular. El índice se calcula exclusivamente con los tres bioritmos personales
-    (emocional 45%, físico 30%, intelectual 25%). Los resultados siguen siendo válidos.</div>`;
+  if (!hasCycle) {
+    const noteEmoji = profile === 'male' ? '⚡' : '🌙';
+    const noteTitle = profile === 'male' ? 'Modo bioritmo puro' : 'Modo sin ciclo activo';
+    const noteText  = profile === 'male'
+      ? 'El índice se calcula con los bioritmos personales de tu pareja: emocional 45%, físico 30%, intelectual 25%.'
+      : 'Sin ciclo menstrual activo. El índice se calcula con los bioritmos personales: emocional 45%, físico 30%, intelectual 25%.';
+    menoNote.style.display = 'flex';
+    menoNote.innerHTML = `<span style="font-size:20px">${noteEmoji}</span><div><b style="color:#a78bfa">${noteTitle}</b><br><span style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">${noteText}</span></div>`;
   } else {
     menoNote.style.display = 'none';
   }
@@ -740,9 +799,9 @@ function calculate() {
   document.getElementById('adviceText').textContent = advice;
 
   // Store for Pro calendar
-  isMenoGlobal = isMeno;
+  isMenoGlobal = !hasCycle;
   lastBd = bd;
-  lastPd = pd;
+  lastPd = hasCycle ? pd : 0;
 
   // Gifts
   renderGifts(idx);
@@ -967,20 +1026,54 @@ function resetCalc() {
   document.getElementById('calcBtn').style.display = 'block';
   document.getElementById('birthDate').value = '';
   document.getElementById('periodDays').value = '';
+  document.getElementById('periodField').style.display = 'none';
   document.getElementById('calcBtn').disabled = true;
   document.getElementById('proBanner').style.display = 'none';
   document.getElementById('proCalendar').style.display = 'none';
-  document.getElementById('calcSection') && document.querySelector('.calc-section').scrollIntoView({behavior:'smooth'});
+  document.getElementById('giftsSection').innerHTML = '';
+  document.getElementById('resetBtn2').style.display = 'none';
+  // Reset profile
+  window.selectedProfile = '';
+  ['female_cycle','female_no_cycle','male','other'].forEach(p => {
+    const el = document.getElementById('opt_' + p);
+    if (el) el.classList.remove('selected');
+  });
+  document.querySelector('.calc-section') && document.querySelector('.calc-section').scrollIntoView({behavior:'smooth'});
+}
+
+// Profile selector logic
+window.selectedProfile = '';
+
+function selectProfile(profile) {
+  window.selectedProfile = profile;
+  // Update visual state
+  ['female_cycle','female_no_cycle','male','other'].forEach(p => {
+    const el = document.getElementById('opt_' + p);
+    if (el) el.classList.toggle('selected', p === profile);
+  });
+  // Show/hide period field
+  const periodField = document.getElementById('periodField');
+  const periodInput = document.getElementById('periodDays');
+  if (profile === 'female_cycle') {
+    periodField.style.display = 'block';
+  } else {
+    periodField.style.display = 'none';
+    if (periodInput) periodInput.value = '';
+  }
+  updateCalcBtn();
+}
+
+function updateCalcBtn() {
+  const bd      = document.getElementById('birthDate').value;
+  const profile = window.selectedProfile;
+  const hasCycle = profile === 'female_cycle';
+  const pd      = hasCycle ? parseInt(document.getElementById('periodDays').value) : 1;
+  document.getElementById('calcBtn').disabled = !(bd && profile && (!hasCycle || pd >= 1));
 }
 
 // Enable button
-['birthDate','periodDays'].forEach(id => {
-  document.getElementById(id).addEventListener('input', () => {
-    const bd = document.getElementById('birthDate').value;
-    const pd = parseInt(document.getElementById('periodDays').value);
-    document.getElementById('calcBtn').disabled = !(bd && pd >= 1);
-  });
-});
+document.getElementById('birthDate').addEventListener('input', updateCalcBtn);
+document.getElementById('periodDays').addEventListener('input', updateCalcBtn);
 
 // Scroll reveal
 const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
@@ -988,4 +1081,3 @@ document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
-
