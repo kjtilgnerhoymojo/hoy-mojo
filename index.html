@@ -580,15 +580,37 @@ function getVerdict(i) {
 
 // ── GIFT DATA ────────────────────────────────────────────────────────────────
 
-// Detect country for Amazon geo-routing
-const AMAZON_TAG = (function() {
+// Detect country for Amazon geo-routing via IP
+let AMAZON_TAG = { domain:'es', tag:'klaushoymojo-21' }; // default ES
+
+(function() {
   try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    const lang = (navigator.language || '').toLowerCase();
-    if (tz.startsWith('America') || lang.startsWith('en-us')) return { domain:'com', tag:'hoymojo-20' };
-    if (tz.startsWith('Europe/Berlin') || lang.startsWith('de')) return { domain:'de', tag:'klaushoymojo-21' };
-    return { domain:'es', tag:'klaushoymojo-21' };
-  } catch(e) { return { domain:'es', tag:'klaushoymojo-21' }; }
+    // Check cache first (valid 24h)
+    const cached = localStorage.getItem('amz_geo');
+    const cachedTs = parseInt(localStorage.getItem('amz_geo_ts') || '0');
+    if (cached && Date.now() - cachedTs < 86400000) {
+      AMAZON_TAG = JSON.parse(cached);
+      return;
+    }
+    // Fetch IP-based country
+    fetch('https://ipapi.co/country/', { cache: 'force-cache' })
+      .then(r => r.text())
+      .then(country => {
+        country = country.trim().toUpperCase();
+        let tag;
+        if (['US','CA','GB'].includes(country)) {
+          tag = { domain:'com', tag:'hoymojo-20' };
+        } else if (country === 'DE') {
+          tag = { domain:'de', tag:'klaushoymojo-21' };
+        } else {
+          tag = { domain:'es', tag:'klaushoymojo-21' };
+        }
+        AMAZON_TAG = tag;
+        localStorage.setItem('amz_geo', JSON.stringify(tag));
+        localStorage.setItem('amz_geo_ts', Date.now().toString());
+      })
+      .catch(() => {}); // silently fail, keep default
+  } catch(e) {}
 })();
 
 const SHOPS = {
