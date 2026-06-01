@@ -580,8 +580,19 @@ function getVerdict(i) {
 
 // ── GIFT DATA ────────────────────────────────────────────────────────────────
 
+// Detect country for Amazon geo-routing
+const AMAZON_TAG = (function() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const lang = (navigator.language || '').toLowerCase();
+    if (tz.startsWith('America') || lang.startsWith('en-us')) return { domain:'com', tag:'hoymojo-20' };
+    if (tz.startsWith('Europe/Berlin') || lang.startsWith('de')) return { domain:'de', tag:'klaushoymojo-21' };
+    return { domain:'es', tag:'klaushoymojo-21' };
+  } catch(e) { return { domain:'es', tag:'klaushoymojo-21' }; }
+})();
+
 const SHOPS = {
-  amazon:    { n:"Amazon",          c:"#ff9900", bg:"rgba(255,153,0,0.12)",    b:"rgba(255,153,0,0.3)",    u:(q)=>`https://www.amazon.es/s?k=${q}&tag=klaushoymojo-21` },
+  amazon:    { n:"Amazon",          c:"#ff9900", bg:"rgba(255,153,0,0.12)",    b:"rgba(255,153,0,0.3)",    u:(q)=>`https://www.amazon.${AMAZON_TAG.domain}/s?k=${q}&tag=${AMAZON_TAG.tag}` },
   elcorte:   { n:"El Corte Inglés", c:"#007a3d", bg:"rgba(0,122,61,0.12)",    b:"rgba(0,122,61,0.3)",    u:(q)=>`https://www.elcorteingles.es/buscar/?s=${q}` },
   sephora:   { n:"Sephora",         c:"#e2000f", bg:"rgba(226,0,15,0.12)",    b:"rgba(226,0,15,0.3)",    u:(q)=>`https://www.sephora.es/search/?q=${q}` },
   interflora:{ n:"Interflora",      c:"#e8003d", bg:"rgba(232,0,61,0.12)",    b:"rgba(232,0,61,0.3)",    u:(q)=>`https://www.interflora.es/flores/?q=${q}` },
