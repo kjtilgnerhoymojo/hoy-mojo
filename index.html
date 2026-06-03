@@ -210,6 +210,40 @@
 
   input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); }
 
+  /* ── WHEEL DATE PICKER ─────────────────────────── */
+  .wheel-date { display: flex; gap: 6px; }
+  .wheel-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
+  .wheel-col.w-year { flex: 1.6; }
+  .wheel-col-label { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.28);
+    text-transform: uppercase; margin-top: 6px; }
+  .wheel-wrap { position: relative; height: 150px; width: 100%;
+    overflow: hidden; border-radius: 12px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); }
+  .wheel-scroll { height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .wheel-scroll::-webkit-scrollbar { display: none; }
+  .wheel-pad { height: 55px; flex-shrink: 0; }
+  .wheel-item { height: 40px; scroll-snap-align: center;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: rgba(255,255,255,0.28);
+    transition: color 0.15s, font-size 0.12s;
+    cursor: pointer; user-select: none; }
+  .wheel-item.sel { color: #fff; font-size: 17px; font-weight: 500; }
+  .wheel-fade-top { position: absolute; top: 0; left: 0; right: 0; height: 60px;
+    pointer-events: none; z-index: 2;
+    background: linear-gradient(to bottom, #0d0d0d, rgba(13,13,13,0)); }
+  .wheel-fade-bot { position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+    pointer-events: none; z-index: 2;
+    background: linear-gradient(to top, #0d0d0d, rgba(13,13,13,0)); }
+  .wheel-line { position: absolute; top: 50%; left: 8px; right: 8px;
+    height: 40px; transform: translateY(-50%);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    pointer-events: none; z-index: 1; }
+
+
+
+
   /* PROFILE SELECTOR */
   .profile-selector { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
   .profile-option { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.04); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 16px; cursor: pointer; transition: all 0.2s; }
@@ -240,7 +274,7 @@
   .pro-cal-badge { background: linear-gradient(135deg, var(--fire), var(--gold)); border-radius: 12px; padding: 3px 10px; font-size: 10px; font-weight: 800; color: #1a0a00; letter-spacing: 1px; }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 16px; }
   .cal-day-header { text-align: center; font-size: 9px; color: rgba(255,255,255,0.6); letter-spacing: 1px; padding-bottom: 4px; }
-  .cal-day { border-radius: 10px; padding: 7px 3px; text-align: center; cursor: default; transition: transform 0.15s; }
+  .cal-day { border-radius: 50%; padding: 7px 3px; text-align: center; cursor: default; transition: transform 0.15s; }
   .cal-day:hover { transform: scale(1.08); }
   .cal-day-num { font-size: 12px; font-weight: 600; }
   .cal-day-idx { font-size: 10px; font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin-top: 2px; }
@@ -319,7 +353,7 @@
     </div>
 
     <label class="field-label">Fecha de nacimiento de tu pareja</label>
-    <input type="date" class="field-input" id="birthDate" max="2008-01-01" min="1950-01-01">
+    <div id="birthDateCont" style="margin-bottom:20px"></div>
 
     <!-- Period field — only shown for female_cycle -->
     <div id="periodField" style="display:none">
@@ -569,6 +603,85 @@ function getCyclePhase(d) {
   return              { name:"Premenstrual",   emoji:"🌧️", score:0.20, hint:"Mejor con mucho cariño y paciencia." };
 }
 
+
+
+
+// ── WHEEL DATE PICKER (bulletproof onclick version) ───────────────────────────
+const MONTHS_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const _wVals = {}; // {prefix_d: value, prefix_m: value, prefix_y: value}
+
+function buildWheelDate(containerId, prefix) {
+  var c = document.getElementById(containerId);
+  if (!c) return;
+  var days   = Array.from({length:31}, function(_,i){ return {v:String(i+1).padStart(2,'0'), l:String(i+1)}; });
+  var months = MONTHS_NAMES.map(function(m,i){ return {v:String(i+1).padStart(2,'0'), l:m}; });
+  var years  = Array.from({length:69}, function(_,i){ return {v:String(2008-i), l:String(2008-i)}; });
+  c.innerHTML =
+    '<div class="wheel-date">' +
+    mkWheelCol(prefix+'_d', days,   'w-day',  'Día') +
+    mkWheelCol(prefix+'_m', months, 'w-mon',  'Mes') +
+    mkWheelCol(prefix+'_y', years,  'w-year', 'Año') +
+    '</div>';
+  _wVals[prefix+'_d'] = '';
+  _wVals[prefix+'_m'] = '';
+  _wVals[prefix+'_y'] = '';
+}
+
+function mkWheelCol(wid, items, cls, label) {
+  var opts = items.map(function(it, i) {
+    return '<div class="wheel-item" onclick="pickWheel(this,\''+wid+'\',\''+it.v+'\')" data-v="'+it.v+'">'+it.l+'</div>';
+  }).join('');
+  return '<div class="wheel-col '+cls+'">' +
+    '<div class="wheel-wrap">' +
+    '<div class="wheel-fade-top"></div>' +
+    '<div class="wheel-line"></div>' +
+    '<div class="wheel-scroll" id="'+wid+'_sc">'+
+    '<div class="wheel-pad"></div>'+opts+'<div class="wheel-pad"></div>'+
+    '</div>' +
+    '<div class="wheel-fade-bot"></div>' +
+    '</div>' +
+    '<div class="wheel-col-label">'+label+'</div>' +
+    '</div>';
+}
+
+function pickWheel(el, wid, val) {
+  _wVals[wid] = val;
+  var sc = document.getElementById(wid+'_sc');
+  if (sc) sc.querySelectorAll('.wheel-item').forEach(function(e){ e.classList.remove('sel'); });
+  el.classList.add('sel');
+  // Smooth scroll selected item to center
+  if (sc) {
+    var itemH = 40;
+    var idx = Array.from(sc.querySelectorAll('.wheel-item')).indexOf(el);
+    sc.scrollTo({top: idx * itemH, behavior: 'smooth'});
+  }
+  updateCalcBtn();
+}
+
+function getWheelDateVal(prefix) {
+  var d = _wVals[prefix+'_d'] || '';
+  var m = _wVals[prefix+'_m'] || '';
+  var y = _wVals[prefix+'_y'] || '';
+  if (!d || !m || !y) return '';
+  return y+'-'+m+'-'+d;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildWheelDate('birthDateCont', 'bd');
+});
+
+// ── NORMALIZE TO PROFILE CEILING ─────────────────────────────────────────────
+function getCeiling(hasCycle) {
+  return hasCycle ? 98 : 95;
+}
+function normalize(rawIdx, hasCycle) {
+  return Math.min(100, Math.round(rawIdx / getCeiling(hasCycle) * 100));
+}
+function normalizeCoupled(rawIdx, p1Cycle, p2Cycle) {
+  const ceiling = (p1Cycle || p2Cycle) ? 95 : 88;
+  return Math.min(100, Math.round(rawIdx / ceiling * 100));
+}
 function getVerdict(i) {
   if (i >= 78) return { emoji:"🔥🔥🔥", title:"¡HOY MOJO!",       sub:"Todo apunta a que sí. ¡No la cagues!", color:"#ff6b35", bg:"rgba(255,107,53,0.1)", border:"rgba(255,107,53,0.3)" };
   if (i >= 58) return { emoji:"😏",      title:"Buenas Vibras",    sub:"Las condiciones son favorables.",        color:"#f5c842", bg:"rgba(245,200,66,0.08)", border:"rgba(245,200,66,0.25)" };
@@ -684,7 +797,7 @@ function getGifts(idx) {
 // ── CALCULATE ────────────────────────────────────────────────────────────────
 
 function calculate() {
-  const bd      = document.getElementById('birthDate').value;
+  const bd      = getWheelDateVal('bd');
   const profile = window.selectedProfile || '';
   if (!bd || !profile) return;
 
@@ -714,7 +827,8 @@ function calculate() {
   const raw = hasCycle
     ? phase.score * 0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10
     : ((emo+1)/2)*0.45   + ((fis+1)/2)*0.30  + ((int_+1)/2)*0.25;
-  const idx   = Math.round(raw * 100);
+  const rawIdx = Math.round(raw * 100);
+  const idx   = normalize(rawIdx, hasCycle);
   const emoP  = Math.round(((emo+1)/2)*100);
   const fisP  = Math.round(((fis+1)/2)*100);
   const intP  = Math.round(((int_+1)/2)*100);
@@ -970,7 +1084,8 @@ function generate30Days(bd, pd) {
     const raw = isMenoGlobal
       ? ((emo+1)/2)*0.45 + ((fis+1)/2)*0.30 + ((int_+1)/2)*0.25
       : phase.score*0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10;
-    const idx   = Math.round(raw * 100);
+    const rawIdx = Math.round(raw * 100);
+  const idx   = normalize(rawIdx, hasCycle);
     const date  = new Date(Date.now() + i * 86400000);
     return { i, idx, phase, date, cDay };
   });
@@ -1078,7 +1193,9 @@ function renderProCalendar(bd, pd, isMeno) {
 function resetCalc() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('calcBtn').style.display = 'block';
-  document.getElementById('birthDate').value = '';
+  // Reset date selectors
+  // Reset wheel pickers
+  if (document.getElementById('birthDateCont')) buildWheelDate('birthDateCont','bd');
   document.getElementById('periodDays').value = '';
   document.getElementById('periodField').style.display = 'none';
   document.getElementById('calcBtn').disabled = true;
@@ -1109,29 +1226,34 @@ function selectProfile(profile) {
   const periodField = document.getElementById('periodField');
   const periodInput = document.getElementById('periodDays');
   if (profile === 'female_cycle') {
-    periodField.style.display = 'block';
+    if (periodField) periodField.style.display = 'block';
   } else {
-    periodField.style.display = 'none';
+    if (periodField) periodField.style.display = 'none';
     if (periodInput) periodInput.value = '';
   }
   updateCalcBtn();
 }
 
 function updateCalcBtn() {
-  const bd      = document.getElementById('birthDate').value;
+  const bd      = getWheelDateVal('bd');
   const profile = window.selectedProfile;
   const hasCycle = profile === 'female_cycle';
   const pd      = hasCycle ? parseInt(document.getElementById('periodDays').value) : 1;
   document.getElementById('calcBtn').disabled = !(bd && profile && (!hasCycle || pd >= 1));
 }
 
-// Enable button
-document.getElementById('birthDate').addEventListener('input', updateCalcBtn);
-document.getElementById('periodDays').addEventListener('input', updateCalcBtn);
+// Setup — all DOM operations safely inside DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Period days input listener
+  var pdEl = document.getElementById('periodDays');
+  if (pdEl) pdEl.addEventListener('input', updateCalcBtn);
 
-// Scroll reveal
-const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  // Scroll reveal
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
+});
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
