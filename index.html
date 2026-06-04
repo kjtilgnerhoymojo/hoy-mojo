@@ -838,6 +838,7 @@ function getGifts(idx) {
 // ── CALCULATE ────────────────────────────────────────────────────────────────
 
 function calculate() {
+  try {
   const bd      = getWheelDateVal('bd');
   const profile = window.selectedProfile || 'female_no_cycle';
   if (!bd) return;
@@ -1027,6 +1028,9 @@ function calculate() {
   document.getElementById('result').style.display = 'block';
   document.getElementById('calcBtn').style.display = 'none';
   setTimeout(() => { document.getElementById('result').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
+  } catch(e) {
+    alert('Error en calculate(): ' + e.message + '\n' + e.stack);
+  }
 }
 
 function renderGifts(idx) {
