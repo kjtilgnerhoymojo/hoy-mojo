@@ -606,12 +606,12 @@ function getCyclePhase(d) {
 
 
 
-// ── WHEEL DATE PICKER ─────────────────────────────────────────────────────────
+// ── WHEEL DATE PICKER ────────────────────────────────────────────────────────
 const MONTHS_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const _wVals = {};
+const _wVals  = {};
 const _wItems = {};
-const ITEM_H = 40;
+const ITEM_H  = 40;
 
 function buildWheelDate(containerId, prefix) {
   var c = document.getElementById(containerId);
@@ -622,62 +622,57 @@ function buildWheelDate(containerId, prefix) {
   _wItems[prefix+'_d'] = days;
   _wItems[prefix+'_m'] = months;
   _wItems[prefix+'_y'] = years;
+  _wVals[prefix+'_d']  = '';
+  _wVals[prefix+'_m']  = '';
+  _wVals[prefix+'_y']  = '';
   c.innerHTML =
     '<div class="wheel-date">' +
     mkWheelCol(prefix+'_d', days,   'w-day',  'Día') +
     mkWheelCol(prefix+'_m', months, 'w-mon',  'Mes') +
     mkWheelCol(prefix+'_y', years,  'w-year', 'Año') +
     '</div>';
-  _wVals[prefix+'_d'] = '';
-  _wVals[prefix+'_m'] = '';
-  _wVals[prefix+'_y'] = '';
-  // Attach scroll listeners
+  // Attach listeners AFTER innerHTML is set
   [prefix+'_d', prefix+'_m', prefix+'_y'].forEach(function(wid) {
     var sc = document.getElementById(wid+'_sc');
     if (!sc) return;
     var timer;
     sc.addEventListener('scroll', function() {
       clearTimeout(timer);
-      timer = setTimeout(function() { readWheel(wid); }, 120);
+      timer = setTimeout(function() { readWheel(wid); }, 150);
+    }, {passive:true});
+    sc.addEventListener('touchend', function() {
+      setTimeout(function() { readWheel(wid); }, 200);
     }, {passive:true});
   });
 }
 
 function mkWheelCol(wid, items, cls, label) {
-  var opts = items.map(function(it, i) {
-    return '<div class="wheel-item" data-v="'+it.v+'" data-i="'+i+'" onclick="tapWheel(this,''+wid+'')">'+it.l+'</div>';
-  }).join('');
-  return '<div class="wheel-col '+cls+'">' +
+  var opts = '';
+  for (var i = 0; i < items.length; i++) {
+    opts += '<div class="wheel-item" data-v="' + items[i].v + '" data-i="' + i + '">' + items[i].l + '</div>';
+  }
+  return '<div class="wheel-col ' + cls + '">' +
     '<div class="wheel-wrap">' +
     '<div class="wheel-fade-top" style="background:linear-gradient(to bottom,#0d0d0d,transparent)"></div>' +
     '<div class="wheel-line"></div>' +
-    '<div class="wheel-scroll" id="'+wid+'_sc">' +
-    '<div class="wheel-pad"></div>'+opts+'<div class="wheel-pad"></div>' +
+    '<div class="wheel-scroll" id="' + wid + '_sc">' +
+    '<div class="wheel-pad"></div>' + opts + '<div class="wheel-pad"></div>' +
     '</div>' +
     '<div class="wheel-fade-bot" style="background:linear-gradient(to top,#0d0d0d,transparent)"></div>' +
     '</div>' +
-    '<div class="wheel-col-label">'+label+'</div>' +
+    '<div class="wheel-col-label">' + label + '</div>' +
     '</div>';
 }
 
 function readWheel(wid) {
-  var sc = document.getElementById(wid+'_sc');
+  var sc = document.getElementById(wid + '_sc');
   if (!sc || !_wItems[wid]) return;
-  var idx = Math.max(0, Math.min(_wItems[wid].length-1, Math.round(sc.scrollTop / ITEM_H)));
-  var val = _wItems[wid][idx].v;
-  _wVals[wid] = val;
+  var idx = Math.max(0, Math.min(_wItems[wid].length - 1, Math.round(sc.scrollTop / ITEM_H)));
+  _wVals[wid] = _wItems[wid][idx].v;
   sc.querySelectorAll('.wheel-item').forEach(function(el, i) {
     el.classList.toggle('sel', i === idx);
   });
   updateCalcBtn();
-}
-
-function tapWheel(el, wid) {
-  var sc = document.getElementById(wid+'_sc');
-  if (!sc) return;
-  var idx = parseInt(el.dataset.i);
-  sc.scrollTo({top: idx * ITEM_H, behavior: 'smooth'});
-  // readWheel fires via scroll listener after snap
 }
 
 function getWheelDateVal(prefix) {
@@ -685,7 +680,7 @@ function getWheelDateVal(prefix) {
   var m = _wVals[prefix+'_m'] || '';
   var y = _wVals[prefix+'_y'] || '';
   if (!d || !m || !y) return '';
-  return y+'-'+m+'-'+d;
+  return y + '-' + m + '-' + d;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
