@@ -607,71 +607,97 @@ function getCyclePhase(d) {
 
 
 // ── WHEEL DATE PICKER ────────────────────────────────────────────────────────
-const MONTHS_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+var MONTHS_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const _wVals  = {};
-const _wItems = {};
-const ITEM_H  = 40;
+var _wVals  = {};
+var _wItems = {};
+var ITEM_H  = 40;
 
 function buildWheelDate(containerId, prefix) {
   var c = document.getElementById(containerId);
   if (!c) return;
-  var days   = Array.from({length:31}, function(_,i){ return {v:String(i+1).padStart(2,'0'), l:String(i+1)}; });
-  var months = MONTHS_NAMES.map(function(m,i){ return {v:String(i+1).padStart(2,'0'), l:m}; });
-  var years  = Array.from({length:69}, function(_,i){ return {v:String(2008-i), l:String(2008-i)}; });
+  var days = [], months = [], years = [];
+  for (var i=1; i<=31; i++) days.push({v:(i<10?'0':'')+i, l:''+i});
+  for (var i=0; i<12; i++) months.push({v:(i<9?'0':'')+(i+1), l:MONTHS_NAMES[i]});
+  for (var i=0; i<69; i++) years.push({v:''+(2008-i), l:''+(2008-i)});
   _wItems[prefix+'_d'] = days;
   _wItems[prefix+'_m'] = months;
   _wItems[prefix+'_y'] = years;
   _wVals[prefix+'_d']  = '';
   _wVals[prefix+'_m']  = '';
   _wVals[prefix+'_y']  = '';
-  c.innerHTML =
-    '<div class="wheel-date">' +
-    mkWheelCol(prefix+'_d', days,   'w-day',  'Día') +
-    mkWheelCol(prefix+'_m', months, 'w-mon',  'Mes') +
-    mkWheelCol(prefix+'_y', years,  'w-year', 'Año') +
-    '</div>';
-  // Attach listeners AFTER innerHTML is set
+
+  function makeCol(wid, items, cls, label) {
+    var html = '<div class="wheel-col '+cls+'">'
+      + '<div class="wheel-wrap">'
+      + '<div class="wheel-fade-top" style="background:linear-gradient(to bottom,#0d0d0d,transparent)"></div>'
+      + '<div class="wheel-line"></div>'
+      + '<div class="wheel-scroll" id="'+wid+'_sc">'
+      + '<div class="wheel-pad"></div>';
+    for (var j=0; j<items.length; j++) {
+      html += '<div class="wheel-item" data-i="'+j+'" data-v="'+items[j].v+'">'+items[j].l+'</div>';
+    }
+    html += '<div class="wheel-pad"></div></div>'
+      + '<div class="wheel-fade-bot" style="background:linear-gradient(to top,#0d0d0d,transparent)"></div>'
+      + '</div>'
+      + '<div class="wheel-col-label">'+label+'</div>'
+      + '</div>';
+    return html;
+  }
+
+  c.innerHTML = '<div class="wheel-date">'
+    + makeCol(prefix+'_d', days,   'w-day',  'Día')
+    + makeCol(prefix+'_m', months, 'w-mon',  'Mes')
+    + makeCol(prefix+'_y', years,  'w-year', 'Año')
+    + '</div>';
+
+  // Attach listeners after DOM is ready
   [prefix+'_d', prefix+'_m', prefix+'_y'].forEach(function(wid) {
     var sc = document.getElementById(wid+'_sc');
     if (!sc) return;
-    var timer;
+
+    function readPos() {
+      var idx = Math.max(0, Math.min(_wItems[wid].length-1, Math.round(sc.scrollTop / ITEM_H)));
+      selectWheelIdx(wid, idx);
+    }
+
+    // Click → instant
+    sc.querySelectorAll('.wheel-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var idx = parseInt(el.getAttribute('data-i'));
+        sc.scrollTop = idx * ITEM_H;
+        selectWheelIdx(wid, idx);
+      });
+    });
+
+    // Scroll debounce (desktop + some mobile)
+    var st;
     sc.addEventListener('scroll', function() {
-      clearTimeout(timer);
-      timer = setTimeout(function() { readWheel(wid); }, 150);
+      clearTimeout(st);
+      st = setTimeout(readPos, 300);
     }, {passive:true});
+
+    // TouchEnd = user lifted finger → wait for snap animation
     sc.addEventListener('touchend', function() {
-      setTimeout(function() { readWheel(wid); }, 200);
+      setTimeout(readPos, 400);
+    }, {passive:true});
+
+    // Pointer up (covers mouse + stylus + some touch)
+    sc.addEventListener('pointerup', function() {
+      setTimeout(readPos, 350);
     }, {passive:true});
   });
 }
 
-function mkWheelCol(wid, items, cls, label) {
-  var opts = '';
-  for (var i = 0; i < items.length; i++) {
-    opts += '<div class="wheel-item" data-v="' + items[i].v + '" data-i="' + i + '">' + items[i].l + '</div>';
-  }
-  return '<div class="wheel-col ' + cls + '">' +
-    '<div class="wheel-wrap">' +
-    '<div class="wheel-fade-top" style="background:linear-gradient(to bottom,#0d0d0d,transparent)"></div>' +
-    '<div class="wheel-line"></div>' +
-    '<div class="wheel-scroll" id="' + wid + '_sc">' +
-    '<div class="wheel-pad"></div>' + opts + '<div class="wheel-pad"></div>' +
-    '</div>' +
-    '<div class="wheel-fade-bot" style="background:linear-gradient(to top,#0d0d0d,transparent)"></div>' +
-    '</div>' +
-    '<div class="wheel-col-label">' + label + '</div>' +
-    '</div>';
-}
-
-function readWheel(wid) {
-  var sc = document.getElementById(wid + '_sc');
-  if (!sc || !_wItems[wid]) return;
-  var idx = Math.max(0, Math.min(_wItems[wid].length - 1, Math.round(sc.scrollTop / ITEM_H)));
+function selectWheelIdx(wid, idx) {
+  if (!_wItems[wid] || idx < 0 || idx >= _wItems[wid].length) return;
   _wVals[wid] = _wItems[wid][idx].v;
-  sc.querySelectorAll('.wheel-item').forEach(function(el, i) {
-    el.classList.toggle('sel', i === idx);
-  });
+  var sc = document.getElementById(wid+'_sc');
+  if (sc) {
+    sc.querySelectorAll('.wheel-item').forEach(function(el, i) {
+      el.classList.toggle('sel', i === idx);
+    });
+  }
   updateCalcBtn();
 }
 
@@ -679,8 +705,7 @@ function getWheelDateVal(prefix) {
   var d = _wVals[prefix+'_d'] || '';
   var m = _wVals[prefix+'_m'] || '';
   var y = _wVals[prefix+'_y'] || '';
-  if (!d || !m || !y) return '';
-  return y + '-' + m + '-' + d;
+  return (d && m && y) ? (y+'-'+m+'-'+d) : '';
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -814,8 +839,8 @@ function getGifts(idx) {
 
 function calculate() {
   const bd      = getWheelDateVal('bd');
-  const profile = window.selectedProfile || '';
-  if (!bd || !profile) return;
+  const profile = window.selectedProfile || 'female_no_cycle';
+  if (!bd) return;
 
   // Period only needed for female_cycle
   const hasCycle = profile === 'female_cycle';
@@ -1252,7 +1277,7 @@ function selectProfile(profile) {
 
 function updateCalcBtn() {
   const bd      = getWheelDateVal('bd');
-  const profile = window.selectedProfile;
+  const profile = window.selectedProfile || 'female_no_cycle'; // default if none selected
   const hasCycle = profile === 'female_cycle';
   const pd      = hasCycle ? parseInt(document.getElementById('periodDays').value) : 1;
   document.getElementById('calcBtn').disabled = !(bd && profile && (!hasCycle || pd >= 1));
