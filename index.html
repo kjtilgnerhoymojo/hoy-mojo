@@ -299,6 +299,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">¿HOY MOJO?</div>
+  <div id="navProBadge" style="display:none;background:linear-gradient(135deg,#ff6b35,#ff9a5c);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:#fff;letter-spacing:2px;">✦ PRO</div>
   <div class="nav-links">
     <a href="#calcular">Calcular</a>
     <a href="#como-funciona">Cómo funciona</a>
@@ -1015,7 +1016,15 @@ function calculate() {
   // Pro — show BEFORE gifts so user sees it immediately
   if (checkProStatus()) {
     renderProCalendar(bd, pd, isMeno);
-    document.getElementById('proBanner').style.display = 'none';
+    var _pb = document.getElementById('proBanner');
+    if (_pb) {
+      _pb.style.display = 'block';
+      _pb.innerHTML = '<div style="text-align:center;padding:20px;background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,154,92,0.06));border:1px solid rgba(255,107,53,0.25);border-radius:20px;">'
+        + '<div style="font-size:28px;margin-bottom:8px">🔥</div>'
+        + '<div style="font-size:18px;font-weight:600;color:#ff9a5c;margin-bottom:4px">Estás en modo Pro</div>'
+        + '<div style="font-size:13px;color:rgba(255,255,255,0.45)">Calendario 30 días activo · Gracias por tu apoyo ✦</div>'
+        + '</div>';
+    }
   } else {
     renderProBanner();
     document.getElementById('proCalendar').style.display = 'none';
@@ -1092,7 +1101,8 @@ function checkProStatus() {
   const pro = localStorage.getItem('hoymojo_pro');
   const ts  = parseInt(localStorage.getItem('hoymojo_pro_ts') || '0');
   // Pro válido 32 días (ciclo mensual + margen)
-  if (pro === 'true' && Date.now() - ts < 32 * 86400000) return true;
+  if (pro === 'true' && Date.now() - ts < 32 * 86400000)   var b = document.getElementById('navProBadge'); if (b) b.style.display='inline-block';
+  return true;
   return false;
 }
 
