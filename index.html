@@ -838,7 +838,6 @@ function getGifts(idx) {
 // ── CALCULATE ────────────────────────────────────────────────────────────────
 
 function calculate() {
-  try {
   const bd      = getWheelDateVal('bd');
   const profile = window.selectedProfile || 'female_no_cycle';
   if (!bd) return;
@@ -1028,9 +1027,6 @@ function calculate() {
   document.getElementById('result').style.display = 'block';
   document.getElementById('calcBtn').style.display = 'none';
   setTimeout(() => { document.getElementById('result').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
-  } catch(e) {
-    alert('Error en calculate(): ' + e.message + '\n' + e.stack);
-  }
 }
 
 function renderGifts(idx) {
@@ -1130,7 +1126,7 @@ function generate30Days(bd, pd) {
       ? ((emo+1)/2)*0.45 + ((fis+1)/2)*0.30 + ((int_+1)/2)*0.25
       : phase.score*0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10;
     const rawIdx = Math.round(raw * 100);
-  const idx   = normalize(rawIdx, hasCycle);
+  const idx   = normalize(rawIdx, !isMenoGlobal);
     const date  = new Date(Date.now() + i * 86400000);
     return { i, idx, phase, date, cDay };
   });
