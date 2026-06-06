@@ -1101,9 +1101,11 @@ const STRIPE_LINK = 'https://buy.stripe.com/bJe3cu4QNgje5GB2bk0Ba00'; // ← sus
 function checkProStatus() {
   const pro = localStorage.getItem('hoymojo_pro');
   const ts  = parseInt(localStorage.getItem('hoymojo_pro_ts') || '0');
-  // Pro válido 32 días (ciclo mensual + margen)
-  if (pro === 'true' && Date.now() - ts < 32 * 86400000)   var b = document.getElementById('navProBadge'); if (b) b.style.display='inline-block';
-  return true;
+  if (pro === 'true' && Date.now() - ts < 32 * 86400000) {
+    var b = document.getElementById('navProBadge');
+    if (b) b.style.display = 'inline-block';
+    return true;
+  }
   return false;
 }
 
