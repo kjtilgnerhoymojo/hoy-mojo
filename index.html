@@ -770,15 +770,7 @@ let AMAZON_TAG = { domain:'es', tag:'klaushoymojo-21' }; // default ES
 })();
 
 const SHOPS = {
-  amazon:    { n:"Amazon",          c:"#ff9900", bg:"rgba(255,153,0,0.12)",    b:"rgba(255,153,0,0.3)",    u:(q)=>`https://www.amazon.${AMAZON_TAG.domain}/s?k=${q}&tag=${AMAZON_TAG.tag}` },
-  elcorte:   { n:"El Corte Inglés", c:"#007a3d", bg:"rgba(0,122,61,0.12)",    b:"rgba(0,122,61,0.3)",    u:(q)=>`https://www.elcorteingles.es/buscar/?s=${q}` },
-  sephora:   { n:"Sephora",         c:"#e2000f", bg:"rgba(226,0,15,0.12)",    b:"rgba(226,0,15,0.3)",    u:(q)=>`https://www.sephora.es/search/?q=${q}` },
-  interflora:{ n:"Interflora",      c:"#e8003d", bg:"rgba(232,0,61,0.12)",    b:"rgba(232,0,61,0.3)",    u:(q)=>`https://www.interflora.es/flores/?q=${q}` },
-  zalando:   { n:"Zalando",         c:"#ff6900", bg:"rgba(255,105,0,0.12)",   b:"rgba(255,105,0,0.3)",   u:(q)=>`https://www.zalando.es/buscar/?q=${q}` },
-  thefork:   { n:"TheFork",         c:"#00b551", bg:"rgba(0,181,81,0.12)",    b:"rgba(0,181,81,0.3)",    u:(q)=>`https://www.thefork.es/buscar?searchQuery=${q}` },
-  fnac:      { n:"Fnac",            c:"#f0a500", bg:"rgba(240,165,0,0.12)",   b:"rgba(240,165,0,0.3)",   u:(q)=>`https://www.fnac.es/SearchResult/ResultList.aspx?Search=${q}` },
-  lovehoney: { n:"Lovehoney",       c:"#e91e8c", bg:"rgba(233,30,140,0.12)",  b:"rgba(233,30,140,0.3)",  u:(q)=>`https://www.lovehoney.es/search/?q=${q}` },
-  meetic:    { n:"Meetic",          c:"#ff4500", bg:"rgba(255,69,0,0.12)",    b:"rgba(255,69,0,0.3)",    u:(q)=>`https://www.meetic.es` },
+  amazon: { n:"Amazon", c:"#ff9900", bg:"rgba(255,153,0,0.15)", b:"rgba(255,153,0,0.4)", u:(q)=>`https://www.amazon.${AMAZON_TAG.domain}/s?k=${q}&tag=${AMAZON_TAG.tag}` },
 };
 
 const GIFT_POOLS = {
@@ -1059,13 +1051,29 @@ function renderGifts(idx) {
       ? '<span style="font-size:9px;background:#ff6b35;color:#fff;border-radius:6px;padding:2px 7px;font-weight:700;margin-left:6px">★ TOP</span>'
       : '';
 
-    const shopBtns = g.shops.map(s => {
-      const sh = SHOPS[s.s];
-      return `<a href="${sh.u(s.q)}" target="_blank" rel="noopener noreferrer"
-        style="display:inline-flex;align-items:center;gap:5px;background:${sh.bg};border:1px solid ${sh.b};border-radius:20px;padding:7px 14px;font-size:12px;font-weight:600;color:${sh.c};text-decoration:none;white-space:nowrap;font-family:Outfit,sans-serif">
-        Ver en ${sh.n} →
-      </a>`;
-    }).join('');
+    const shopBtns = g.shops
+      .filter(s => SHOPS[s.s]) // skip shops not in SHOPS anymore
+      .map(s => {
+        const sh = SHOPS[s.s];
+        return `<a href="${sh.u(s.q)}" target="_blank" rel="noopener noreferrer"
+          style="display:flex;align-items:center;justify-content:space-between;gap:10px;
+            background:linear-gradient(135deg,rgba(255,153,0,0.18),rgba(255,153,0,0.08));
+            border:1px solid rgba(255,153,0,0.5);border-radius:14px;
+            padding:13px 18px;text-decoration:none;width:100%;
+            font-family:Outfit,sans-serif;transition:all 0.2s;"
+          onmouseover="this.style.background='linear-gradient(135deg,rgba(255,153,0,0.28),rgba(255,153,0,0.15))'"
+          onmouseout="this.style.background='linear-gradient(135deg,rgba(255,153,0,0.18),rgba(255,153,0,0.08))'">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#ff9900;">
+              🛒 Comprar en ${sh.n}
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">
+              ${idx >= 78 ? (g.hot ? '🔥 Este es el momento — no lo dejes pasar' : 'Sorpréndela hoy que el ambiente es perfecto ✨') :idx >= 58 ? (g.hot ? 'Prepara un detalle — el día acompaña 💝' : 'Un gesto especial siempre es bienvenido 🌸') :'Un regalo inesperado alegra cualquier día 🎁'}
+            </div>
+          </div>
+          <span style="color:#ff9900;font-size:18px;flex-shrink:0">→</span>
+        </a>`;
+      }).join('');
 
     html += `
       <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:16px;margin-bottom:10px;overflow:hidden">
@@ -1076,15 +1084,15 @@ function renderGifts(idx) {
             <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px">${g.d}</div>
           </div>
         </div>
-        <div style="padding:0 14px 14px;display:flex;flex-wrap:wrap;gap:8px">
+        <div style="padding:0 14px 14px;">
           ${shopBtns}
         </div>
       </div>`;
   });
 
   // Affiliate note
-  html += `<p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.18);line-height:1.6;margin-top:4px">
-    Los enlaces pueden incluir identificadores de afiliado. Comprar a través de ellos apoya la app sin coste adicional para ti.
+  html += `<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.25);line-height:1.6;margin-top:8px">
+    💛 Si compras a través de estos enlaces apoyamos la app — sin coste extra para ti.
   </p>`;
 
   sec.innerHTML = html;
