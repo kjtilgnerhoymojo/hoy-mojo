@@ -1012,15 +1012,6 @@ function resetCalc() {
 
 // Profile selector logic
 window.selectedProfile = '';
-  ['female_cycle','female_no_cycle','male','other'].forEach(p => {
-    const el = document.getElementById('opt_' + p);
-    if (el) el.classList.remove('selected');
-  });
-  document.querySelector('.calc-section') && document.querySelector('.calc-section').scrollIntoView({behavior:'smooth'});
-}
-
-// Profile selector logic
-window.selectedProfile = '';
 
 function selectProfile(profile) {
   window.selectedProfile = profile;
