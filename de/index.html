@@ -676,7 +676,7 @@ function calculate() {
     : { name: profile === 'male' ? 'Persönliche Biorhythmen' : 'Kein aktiver Zyklus',
         emoji: profile === 'male' ? '⚡' : '🌙',
         score: 0,
-        hint: profile === 'male' ? 'Berechnung basierend auf persönlichen Biorhythmen' : 'Berechnung basierend auf persönlichen Biorhythmen' };
+        hint: profile === 'male' ? 'Berechnung basierend auf persönlichen Biorhythmen.' : 'Berechnung basierend auf persönlichen Biorhythmen.' };
 
   // Weights:
   // female_cycle:    50% cycle + 25% emo + 15% fis + 10% int
@@ -686,9 +686,6 @@ function calculate() {
     : ((emo+1)/2)*0.45   + ((fis+1)/2)*0.30  + ((int_+1)/2)*0.25;
   const rawIdx = Math.round(raw * 100);
   const idx   = normalize(rawIdx, hasCycle);
-  const emoP  = Math.round(((emo+1)/2)*100);
-  const fisP  = Math.round(((fis+1)/2)*100);
-  const intP  = Math.round(((int_+1)/2)*100);
   const v     = getVerdict(idx);
 
   // Show result
@@ -696,67 +693,14 @@ function calculate() {
   rc.style.background = v.bg;
   rc.style.border = `1.5px solid ${v.border}`;
 
-  // no emoji element
-  document.getElementById('resultLabel').style.color = v.color;
-  (document.getElementById('resultLabel')||{style:{},textContent:'',innerHTML:''}).textContent = v.title;
-  (document.getElementById('result-sub-placeholder')||{style:{},textContent:'',innerHTML:''}).textContent = v.sub;
-
-  // Flames
-  const fl = document.getElementById('flames');
-  fl.innerHTML = '';
-  if (idx >= 78) {
-    for (let i=0;i<8;i++) {
-      const f = document.createElement('div');
-      f.className = 'flame';
-      f.style.cssText = `left:${10+i*11}%;width:${6+(i%3)*4}px;height:${18+(i%4)*14}px;background:radial-gradient(ellipse at bottom,rgba(255,107,53,0.7),transparent);animation:flameAnim ${0.8+(i%4)*0.3}s ease-in-out ${i*0.1}s infinite alternate;`;
-      fl.appendChild(f);
-    }
-  }
-
-  // Gauge animation
-  const circ = 2 * Math.PI * 68;
-  const gc = document.getElementById('gaugeCircle');
-  gc.style.stroke = v.color;
-  gc.style.filter = `drop-shadow(0 0 10px ${v.color}66)`;
-  gc.style.transition = 'stroke-dasharray 1.3s cubic-bezier(.4,0,.2,1)';
-  gc.style.strokeDasharray = `0 ${circ}`;
-  setTimeout(() => { gc.style.strokeDasharray = `${(idx/100)*circ} ${circ}`; }, 50);
-
-  // Gauge number count up
   const gn = document.getElementById('gaugeNum');
   gn.style.color = v.color;
   let cur = 0;
   const timer = setInterval(() => { cur = Math.min(cur+2, idx); gn.textContent = cur; if(cur>=idx) clearInterval(timer); }, 20);
 
-  // Phase
-  document.getElementById('phaseBadge').textContent = hasCycle ? `${phase.emoji} ${phase.name} · Tag ${cDay} des Zyklus` : `${phase.emoji} ${phase.name}`;
-  document.getElementById('phaseHint').textContent = `"${phase.hint}"`;
-
-  // Profile note
-  const menoNote = document.getElementById('menoNote');
-  if (!hasCycle) {
-    const noteEmoji = profile === 'male' ? '⚡' : '🌙';
-    const noteTitle = profile === 'male' ? 'Reiner Biorhythmus-Modus' : 'Modus ohne aktiven Zyklus';
-    const noteText  = profile === 'male'
-      ? 'Die Zahl wird anhand der persönlichen Biorhythmen Deiner Partnerin berechnet: emotional 45%, körperlich 30%, intellektuell 25%.'
-      : 'Kein aktiver Menstruationszyklus. Die Zahl wird anhand der persönlichen Biorhythmen berechnet: emotional 45%, körperlich 30%, intellektuell 25%.';
-    menoNote.style.display = 'flex';
-    menoNote.innerHTML = `<span style="font-size:20px">${noteEmoji}</span><div><b style="color:#a78bfa">${noteTitle}</b><br><span style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">${noteText}</span></div>`;
-  } else {
-    menoNote.style.display = 'none';
-  }
-
-  // Stats
-  document.getElementById('statEmo').textContent = emoP + '%';
-  document.getElementById('statEmoBar').style.width = emoP + '%';
-  document.getElementById('statFis').textContent = fisP + '%';
-  document.getElementById('statFisBar').style.width = fisP + '%';
-  document.getElementById('statInt').textContent = intP + '%';
-  document.getElementById('statIntBar').style.width = intP + '%';
-  document.getElementById('statIdx').textContent = idx + '%';
-  document.getElementById('statIdx').style.color = v.color;
-  document.getElementById('statIdxBar').style.width = idx + '%';
-  document.getElementById('statIdxBar').style.background = v.color;
+  const rl = document.getElementById('resultLabel');
+  rl.style.color = v.color;
+  rl.textContent = v.title;
 
   // Advice — random from pool per level
   const ADVICE = {
@@ -821,7 +765,32 @@ function calculate() {
   else if (idx>=38)  advice = pickAdvice(ADVICE.mid2);
   else               advice = pickAdvice(ADVICE.low);
 
-  document.getElementById('adviceText').textContent = advice;
+  // Phase + advice combined into the single hint element that exists in HTML
+  const ph = document.getElementById('phaseHint');
+  if (ph) {
+    const phaseLine = hasCycle
+      ? `${phase.emoji} ${phase.name} · Tag ${cDay} des Zyklus`
+      : `${phase.emoji} ${phase.name}`;
+    ph.innerHTML =
+      `<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:10px;font-style:normal;">${phaseLine}</div>` +
+      `<div style="font-style:italic;">"${advice}"</div>`;
+  }
+
+  // Profile note (only for no-cycle / male / other)
+  const menoNote = document.getElementById('menoNote');
+  if (menoNote) {
+    if (!hasCycle) {
+      const noteEmoji = profile === 'male' ? '⚡' : '🌙';
+      const noteTitle = profile === 'male' ? 'Reiner Biorhythmus-Modus' : 'Modus ohne aktiven Zyklus';
+      const noteText  = profile === 'male'
+        ? 'Die Zahl wird anhand der persönlichen Biorhythmen Deiner Partnerin berechnet: emotional 45%, körperlich 30%, intellektuell 25%.'
+        : 'Kein aktiver Menstruationszyklus. Die Zahl wird anhand der persönlichen Biorhythmen berechnet: emotional 45%, körperlich 30%, intellektuell 25%.';
+      menoNote.style.display = 'flex';
+      menoNote.innerHTML = `<span style="font-size:20px">${noteEmoji}</span><div><b style="color:#a78bfa">${noteTitle}</b><br><span style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">${noteText}</span></div>`;
+    } else {
+      menoNote.style.display = 'none';
+    }
+  }
 
   // Store for Pro calendar
   isMenoGlobal = !hasCycle;
@@ -843,7 +812,8 @@ function calculate() {
     }
   } else {
     renderProBanner();
-    document.getElementById('proCalendar').style.display = 'none';
+    const pcEl = document.getElementById('proCalendar');
+    if (pcEl) pcEl.style.display = 'none';
   }
 
   // Gifts — shown after Pro banner
@@ -919,7 +889,7 @@ function renderGifts(idx) {
   </p>`;
 
   sec.innerHTML = html;
-  document.getElementById('resetBtn2').style.display = 'block';
+  var _rb2 = document.getElementById('resetBtn2'); if (_rb2) _rb2.style.display = 'block';
 }
 
 
@@ -1075,20 +1045,27 @@ function renderProCalendar(bd, pd, isMeno) {
 }
 
 function resetCalc() {
-  document.getElementById('result').style.display = 'none';
+  document.getElementById('resultSection').style.display = 'none';
   document.getElementById('calcForm').style.display = 'block';
-  // Reset date selectors
   // Reset wheel pickers
   if (document.getElementById('birthDateCont')) buildWheelDate('birthDateCont','bd');
-  document.getElementById('periodDays').value = '';
-  document.getElementById('periodField').style.display = 'none';
+  if (document.getElementById('periodDays')) document.getElementById('periodDays').value = '';
+  if (document.getElementById('periodField')) document.getElementById('periodField').style.display = 'none';
   document.getElementById('calcBtn').disabled = true;
-  document.getElementById('proBanner').style.display = 'none';
-  document.getElementById('proCalendar').style.display = 'none';
-  document.getElementById('giftsSection').innerHTML = '';
-  document.getElementById('resetBtn2').style.display = 'none';
+  if (document.getElementById('proBanner')) document.getElementById('proBanner').style.display = 'none';
+  if (document.getElementById('proCalendar')) document.getElementById('proCalendar').style.display = 'none';
+  if (document.getElementById('giftsSection')) document.getElementById('giftsSection').innerHTML = '';
   // Reset profile
   window.selectedProfile = '';
+  ['female_cycle','female_no_cycle','male','other'].forEach(p => {
+    const el = document.getElementById('opt_' + p);
+    if (el) el.classList.remove('active');
+  });
+  document.getElementById('calcular') && document.getElementById('calcular').scrollIntoView({behavior:'smooth'});
+}
+
+// Profile selector logic
+window.selectedProfile = '';
   ['female_cycle','female_no_cycle','male','other'].forEach(p => {
     const el = document.getElementById('opt_' + p);
     if (el) el.classList.remove('selected');
@@ -1104,7 +1081,7 @@ function selectProfile(profile) {
   // Update visual state
   ['female_cycle','female_no_cycle','male','other'].forEach(p => {
     const el = document.getElementById('opt_' + p);
-    if (el) el.classList.toggle('selected', p === profile);
+    if (el) el.classList.toggle('active', p === profile);
   });
   // Show/hide period field
   const periodField = document.getElementById('periodField');
