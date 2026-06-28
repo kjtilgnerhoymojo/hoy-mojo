@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hoy Mojo — Hast du heute Sex oder schon wieder nicht?</title>
+<title>Hoy Mojo — Hast du heute Sex oder wieder nicht?</title>
 <meta name="description" content="Finde heraus ob heute Dein Glückstag ist. Biorhythmus-Rechner für Paare. Kostenlos und anonym.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
-body{background:#111;color:#fff;font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;}
+body{background:#111;color:#fff;font-family:'Outfit',sans-serif;font-weight:400;overflow-x:hidden;}
 
 /* NAV */
 nav{
@@ -55,11 +55,11 @@ nav{
 }
 .hero-title .fire{background:linear-gradient(135deg,#ff6b35,#ff9a5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .hero-sub{
-  font-size:clamp(15px,1.5vw,18px);color:rgba(255,255,255,0.55);
+  font-size:clamp(15px,1.5vw,18px);color:rgba(255,255,255,0.72);
   line-height:1.8;max-width:420px;margin-bottom:28px;position:relative;z-index:1;
 }
 .hero-sub strong{color:rgba(255,255,255,0.9);}
-.hero-note{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;position:relative;z-index:1;}
+.hero-note{font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:1px;position:relative;z-index:1;}
 
 /* RIGHT — calculator */
 .right{
@@ -70,7 +70,7 @@ nav{
   font-family:'Barlow Condensed',sans-serif;font-weight:900;
   font-size:28px;letter-spacing:2px;margin-bottom:6px;color:rgba(255,255,255,0.9);
 }
-.calc-sub{font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:28px;letter-spacing:0.5px;}
+.calc-sub{font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:28px;letter-spacing:0.5px;}
 
 /* Fields */
 .field{margin-bottom:20px;}
@@ -79,7 +79,7 @@ nav{
 .chip{
   background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
   border-radius:30px;padding:8px 16px;font-size:13px;
-  color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.15s;
+  color:rgba(255,255,255,0.72);cursor:pointer;transition:all 0.15s;
   font-family:'Outfit',sans-serif;
 }
 .chip:hover{border-color:rgba(255,107,53,0.5);color:#fff;}
@@ -102,7 +102,7 @@ nav{
   box-shadow:0 6px 28px rgba(255,107,53,0.35);transition:all 0.2s;margin-top:8px;
 }
 .calc-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(255,107,53,0.45);}
-.calc-btn:disabled{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.25);cursor:not-allowed;box-shadow:none;transform:none;}
+.calc-btn:disabled{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.55);cursor:not-allowed;box-shadow:none;transform:none;}
 
 /* RESULT */
 #resultSection{display:none;}
@@ -111,12 +111,12 @@ nav{
   font-size:clamp(80px,10vw,140px);line-height:1;text-align:center;
   margin-bottom:4px;
 }
-.result-of{font-size:14px;color:rgba(255,255,255,0.3);text-align:center;letter-spacing:4px;margin-bottom:16px;}
+.result-of{font-size:14px;color:rgba(255,255,255,0.6);text-align:center;letter-spacing:4px;margin-bottom:16px;}
 .result-label{
   font-family:'Barlow Condensed',sans-serif;font-weight:900;
   font-size:28px;letter-spacing:3px;text-align:center;margin-bottom:8px;
 }
-.result-hint{font-size:14px;color:rgba(255,255,255,0.5);text-align:center;line-height:1.7;font-style:italic;margin-bottom:24px;padding:0 8px;}
+.result-hint{font-size:14px;color:rgba(255,255,255,0.7);text-align:center;line-height:1.7;font-style:italic;margin-bottom:24px;padding:0 8px;}
 .result-divider{height:1px;background:rgba(255,255,255,0.07);margin:20px 0;}
 
 /* SCORE CARDS inline */
@@ -137,7 +137,7 @@ nav{
 }
 .amz-btn:hover{background:linear-gradient(135deg,rgba(255,153,0,0.3),rgba(255,153,0,0.15));}
 .amz-title{font-size:14px;font-weight:700;color:#ff9900;}
-.amz-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;}
+.amz-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px;}
 
 /* PRO BANNER */
 #proBanner{display:none;}
@@ -147,7 +147,7 @@ nav{
   text-align:center;margin-top:12px;
 }
 .pro-card h3{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:#ff9a5c;letter-spacing:2px;margin-bottom:6px;}
-.pro-card p{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:14px;}
+.pro-card p{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.6;margin-bottom:14px;}
 .pro-buy-btn{
   display:block;background:linear-gradient(135deg,#ff6b35,#ff9a5c);
   border:none;border-radius:12px;padding:12px;width:100%;
@@ -163,10 +163,10 @@ nav{
 .reset-btn{
   width:100%;margin-top:10px;background:transparent;
   border:1px solid rgba(255,255,255,0.08);border-radius:12px;
-  padding:11px;font-size:12px;color:rgba(255,255,255,0.3);
+  padding:11px;font-size:12px;color:rgba(255,255,255,0.6);
   cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;
 }
-.reset-btn:hover{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);}
+.reset-btn:hover{border-color:rgba(255,255,255,0.5);color:rgba(255,255,255,0.75);}
 
 /* FOOTER */
 footer{
@@ -177,11 +177,11 @@ footer{
 }
 .footer-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:3px;background:linear-gradient(135deg,#ff6b35,#ff9a5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .footer-links{display:flex;gap:16px;flex-wrap:wrap;}
-.footer-links a{font-size:11px;color:rgba(255,255,255,0.25);text-decoration:none;}
-.footer-links a:hover{color:rgba(255,255,255,0.6);}
+.footer-links a{font-size:11px;color:rgba(255,255,255,0.55);text-decoration:none;}
+.footer-links a:hover{color:rgba(255,255,255,0.75);}
 
 /* MOBILE */
-@media(max-width:768px){
+@media(max-width:768px),(pointer:coarse){
   .main{grid-template-columns:1fr;}
   /* Hero stays first — user needs context before calculating.
      Compacted so calculator follows quickly, without forced scroll. */
@@ -226,7 +226,7 @@ footer{
   text-align:center;box-shadow:0 6px 24px rgba(255,107,53,0.3);
 }
 .pro-note{
-  font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;letter-spacing:0.5px;
+  font-size:11px;color:rgba(255,255,255,0.6);margin-top:10px;letter-spacing:0.5px;
 }
 
 /* PRO CALENDAR (used by renderProCalendar JS) */
@@ -241,14 +241,21 @@ footer{
   padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:1px;
 }
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;}
-.cal-day-header{text-align:center;font-size:10px;color:rgba(255,255,255,0.3);padding-bottom:4px;}
+.cal-day-header{text-align:center;font-size:10px;color:rgba(255,255,255,0.6);padding-bottom:4px;}
 .cal-day{
   aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;font-size:10px;cursor:default;
+  align-items:center;justify-content:center;cursor:default;min-height:38px;
 }
-.cal-day-num{font-size:11px;font-weight:600;}
-.cal-day-idx{font-size:8px;opacity:0.8;}
-.cal-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:18px;}
+.cal-day-num{font-size:13px;font-weight:700;}
+.cal-day-idx{font-size:9px;opacity:0.85;margin-top:1px;}
+@media(max-width:480px){
+  .cal-grid{gap:5px;}
+  .cal-day{min-height:42px;border-radius:10px;}
+  .cal-day-num{font-size:15px;}
+  .cal-day-idx{font-size:10px;}
+  .cal-day-header{font-size:11px;padding-bottom:6px;}
+}
+.cal-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:9px;color:rgba(255,255,255,0.65);margin-bottom:18px;}
 .cal-legend-item{display:flex;align-items:center;gap:4px;}
 .cal-legend-dot{width:7px;height:7px;border-radius:50%;}
 .best-days{margin-top:4px;}
@@ -263,7 +270,7 @@ footer{
 .wheel-date { display: flex; gap: 6px; }
 .wheel-col { flex: 1; display: flex; flex-direction: column; align-items: center; }
 .wheel-col.w-year { flex: 1.6; }
-.wheel-col-label { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.28);
+.wheel-col-label { font-size: 9px; letter-spacing: 2px; color:rgba(255,255,255,0.55);
   text-transform: uppercase; margin-top: 6px; }
 .wheel-wrap { position: relative; height: 150px; width: 100%;
   overflow: hidden; border-radius: 12px;
@@ -274,7 +281,7 @@ footer{
 .wheel-pad { height: 55px; flex-shrink: 0; }
 .wheel-item { height: 40px; scroll-snap-align: center;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px; color: rgba(255,255,255,0.28);
+  font-size: 15px; color:rgba(255,255,255,0.55);
   transition: color 0.15s, font-size 0.12s;
   cursor: pointer; user-select: none; }
 .wheel-item.sel { color: #fff; font-size: 17px; font-weight: 500; }
@@ -373,7 +380,7 @@ sessionStorage.setItem('hm_lang_seen', 'de');
         <input type="number" class="field-input" id="periodDays" min="1" max="999" placeholder="Z.B. 14" oninput="updateCalcBtn()">
       </div>
 
-      <button class="calc-btn" id="calcBtn" onclick="calculate()" disabled>🔥 MEINE ZAHL HERAUSFINDEN</button>
+      <button class="calc-btn" id="calcBtn" onclick="calculate()" disabled>🔥 WIE IST MEINE CHANCE FÜR SEX NOCH HEUTE?</button>
     </div>
 
     <!-- RESULT -->
@@ -389,7 +396,7 @@ sessionStorage.setItem('hm_lang_seen', 'de');
 
       <!-- Gifts -->
       <div id="giftsSection"></div>
-      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.2);margin-top:8px;">💛 Über diese Links unterstützt Du die App — ohne Mehrkosten für Dich.</p>
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.5);margin-top:8px;">💛 Über diese Links unterstützt Du die App — ohne Mehrkosten für Dich.</p>
 
       <div class="result-divider"></div>
 
@@ -400,7 +407,7 @@ sessionStorage.setItem('hm_lang_seen', 'de');
       <div id="proCalendar"></div>
       <div id="pdfCard" style="display:none;align-items:center;gap:14px;background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.2);border-radius:14px;padding:14px 18px;margin-top:10px;">
         <div style="font-size:28px;">📄</div>
-        <div style="flex:1;"><h4 style="font-size:14px;margin-bottom:3px;">Dein Monatskalender</h4><p style="font-size:12px;color:rgba(255,255,255,0.4);">Lade die nächsten 30 Tage herunter</p></div>
+        <div style="flex:1;"><h4 style="font-size:14px;margin-bottom:3px;">Dein Monatskalender</h4><p style="font-size:12px;color:rgba(255,255,255,0.65);">Lade die nächsten 30 Tage herunter</p></div>
         <button onclick="downloadPDF()" style="background:linear-gradient(135deg,#ff6b35,#ff9a5c);border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;">⬇ PDF</button>
       </div>
 
@@ -417,7 +424,7 @@ sessionStorage.setItem('hm_lang_seen', 'de');
     <a href="/" style="margin-right:4px">🇪🇸 Español</a>
     <a href="https://billing.stripe.com/p/login/bJe3cu4QNgje5GB2bk0Ba00" target="_blank">Bist Du Pro? Abo verwalten →</a>
   </div>
-  <div style="font-size:10px;color:rgba(255,255,255,0.15);">© 2026 HoyMojo.com · Mit 🔥 gemacht</div>
+  <div style="font-size:10px;color:rgba(255,255,255,0.45);">© 2026 HoyMojo.com · Mit 🔥 gemacht</div>
 </footer>
 
 <script>
@@ -606,38 +613,37 @@ const SHOPS = {
 
 const GIFT_POOLS = {
   high: [
-    { e:"🌹", n:"Premium-Blumenstrauß",         d:"Heute noch geliefert. Geht immer.",                   hot:true,  shops:[{s:"amazon",q:"blumenstrauss+frauen+geschenk"}] },
     { e:"💎", n:"Luxus-Parfüm",                 d:"Dior, YSL, Lancôme, Chanel...",                       hot:true,  shops:[{s:"amazon",q:"parfum+frauen+geschenk+luxus"}] },
-    { e:"👙", n:"Besondere Dessous",            d:"Für den perfekten Anlass.",                           hot:true,  shops:[{s:"amazon",q:"dessous+geschenk+damen"}] },
+    { e:"👙", n:"Sexy Dessous",                 d:"Für den perfekten Anlass.",                           hot:true,  shops:[{s:"amazon",q:"dessous+sexy+damen+gewagt"}] },
+    { e:"🍆", n:"Vibrator oder Dildo",          d:"Um heute Nacht eine Stufe höher zu gehen.",           hot:true,  shops:[{s:"amazon",q:"vibrator+damen+geschenk"}] },
+    { e:"⛓️", n:"Intim-Spielzeug-Set",          d:"Handschellen, Augenmasken, Zubehör für mutige Paare.", hot:true,  shops:[{s:"amazon",q:"intim+spielzeug+set+paar"}] },
     { e:"💍", n:"Schmuck oder edle Accessoires", d:"Ein Detail, das man nicht vergisst.",                hot:false, shops:[{s:"amazon",q:"schmuck+geschenk+damen+besonders"}] },
     { e:"🥂", n:"Premium-Champagner",           d:"Moët, Veuve Clicquot... der perfekte Abend.",        hot:false, shops:[{s:"amazon",q:"champagner+geschenk+premium"}] },
-    { e:"🎁", n:"Überraschungs-Geschenkbox",    d:"Eine kuratierte Box voller Details für sie.",         hot:false, shops:[{s:"amazon",q:"geschenkbox+ueberraschung+damen"}] },
-    { e:"🧴", n:"Luxus-Creme oder Serum",       d:"La Mer, Clarins, Lancôme. Ein echter Luxus.",        hot:false, shops:[{s:"amazon",q:"creme+luxus+geschenk+damen"}] },
-    { e:"🌸", n:"Paar-Erlebnis",                d:"Spa, Wellness oder Wochenendausflug.",                hot:true,  shops:[{s:"amazon",q:"paar+erlebnis+spa+geschenk"}] },
+    { e:"🎁", n:"Intime Überraschungsbox",      d:"Eine kuratierte Box voller Details für sie.",        hot:false, shops:[{s:"amazon",q:"geschenkbox+ueberraschung+intim+paar"}] },
     { e:"🎀", n:"Premium-Tasche oder Accessoire", d:"Ein gutes Detail enttäuscht nie.",                  hot:false, shops:[{s:"amazon",q:"tasche+damen+premium+geschenk"}] },
   ],
   medium: [
     { e:"🕯️", n:"Premium-Duftkerzen",          d:"Die Atmosphäre ist alles.",                          hot:true,  shops:[{s:"amazon",q:"duftkerzen+romantisch+geschenk"}] },
-    { e:"💆", n:"Massage-Set",                  d:"Öle, Kerzen... alles inklusive.",                     hot:true,  shops:[{s:"amazon",q:"massage+set+paar+oele"}] },
-    { e:"🍫", n:"Premium-Pralinen",             d:"Ferrero, Lindt, Godiva. Geht immer.",                 hot:false, shops:[{s:"amazon",q:"pralinen+premium+geschenk+damen"}] },
-    { e:"🛁", n:"Luxus-Badeset",                d:"Badebomben, Salze, duftende Cremes.",                 hot:false, shops:[{s:"amazon",q:"badeset+luxus+geschenk+damen"}] },
-    { e:"🍷", n:"Besondere Weinflasche",        d:"Ein guter Rotwein oder ein Roséwein.",                hot:false, shops:[{s:"amazon",q:"wein+geschenk+besonders+flasche"}] },
-    { e:"🌺", n:"Pflanze oder Trockenblumen",   d:"Voll im Trend. Hält ewig.",                           hot:false, shops:[{s:"amazon",q:"trockenblumen+deko+geschenk"}] },
+    { e:"💆", n:"Sinnliches Massageöl",         d:"Für Hände, die wissen, was sie tun.",                hot:true,  shops:[{s:"amazon",q:"massageoel+sinnlich+paar"}] },
+    { e:"💋", n:"Hochwertiges Gleitgel",        d:"Das Detail, das jede Nacht verbessert.",             hot:false, shops:[{s:"amazon",q:"gleitgel+hochwertig+intim"}] },
+    { e:"🍫", n:"Premium-Pralinen",             d:"Ferrero, Lindt, Godiva. Geht immer.",                hot:false, shops:[{s:"amazon",q:"pralinen+premium+geschenk+damen"}] },
+    { e:"🛁", n:"Luxus-Badeset",                d:"Badebomben, Salze, duftende Cremes.",                hot:false, shops:[{s:"amazon",q:"badeset+luxus+geschenk+damen"}] },
+    { e:"🍷", n:"Besondere Weinflasche",        d:"Ein guter Rotwein oder ein Roséwein.",               hot:false, shops:[{s:"amazon",q:"wein+geschenk+besonders+flasche"}] },
     { e:"📖", n:"Das Buch, das sie lesen wollte", d:"Frag sie oder schau ihre Wunschliste an. 😊",      hot:false, shops:[{s:"amazon",q:"buch+geschenk+frauen+2025"}] },
-    { e:"🎧", n:"Premium-Kopfhörer",            d:"AirPods, kabellose Kopfhörer...",                     hot:false, shops:[{s:"amazon",q:"kopfhoerer+kabellos+geschenk"}] },
-    { e:"🧖", n:"Gesichtsserum oder Maske",     d:"Ein Skincare-Luxus, der immer gut ankommt.",          hot:false, shops:[{s:"amazon",q:"gesichtsserum+geschenk+damen"}] },
-    { e:"🎨", n:"Bastel- oder Kunst-Set",       d:"Wenn sie kreativ ist, liebt sie das.",                hot:false, shops:[{s:"amazon",q:"bastelset+kunst+geschenk+damen"}] },
+    { e:"🎧", n:"Premium-Kopfhörer",            d:"AirPods, kabellose Kopfhörer...",                    hot:false, shops:[{s:"amazon",q:"kopfhoerer+kabellos+geschenk"}] },
+    { e:"🧖", n:"Gesichtsserum oder Maske",     d:"Ein Skincare-Luxus, der immer gut ankommt.",         hot:false, shops:[{s:"amazon",q:"gesichtsserum+geschenk+damen"}] },
+    { e:"🎨", n:"Bastel- oder Kunst-Set",       d:"Wenn sie kreativ ist, liebt sie das.",               hot:false, shops:[{s:"amazon",q:"bastelset+kunst+geschenk+damen"}] },
   ],
   low: [
-    { e:"📚", n:"Die 5 Sprachen der Liebe", d:"Der Bestseller über Paare. Investiert in euch.",         hot:true,  shops:[{s:"amazon",q:"die+5+sprachen+der+liebe+buch"}] },
-    { e:"🎲", n:"Paar-Spiel",                   d:"Für einen anderen Abend zu Hause.",                   hot:true,  shops:[{s:"amazon",q:"paarspiel+erwachsene+unterhaltung"}] },
-    { e:"🌿", n:"Schöne Pflanze oder Sukkulente", d:"Eine unerwartete Geste, die immer ankommt.",        hot:false, shops:[{s:"amazon",q:"pflanze+deko+geschenk+damen"}] },
-    { e:"🧘", n:"Spa-Gutschein",                d:"Das meist geschätzte Geschenk. Ohne Hintergedanken.", hot:false, shops:[{s:"amazon",q:"spa+gutschein+erlebnis+damen"}] },
+    { e:"📚", n:"Die 5 Sprachen der Liebe",     d:"Der Bestseller über Paare. Investiert in euch.",     hot:true,  shops:[{s:"amazon",q:"die+5+sprachen+der+liebe+buch"}] },
+    { e:"🎲", n:"Paar-Spiel (gewagt)",          d:"Für einen anderen Abend zu Hause.",                  hot:true,  shops:[{s:"amazon",q:"paarspiel+gewagt+erwachsene"}] },
+    { e:"🍑", n:"Einsteiger-Intimspielzeug",    d:"Ideal, um zusammen etwas Neues auszuprobieren.",     hot:true,  shops:[{s:"amazon",q:"intimspielzeug+einsteiger+paar"}] },
+    { e:"🌿", n:"Schöne Pflanze oder Sukkulente", d:"Eine unerwartete Geste, die immer ankommt.",       hot:false, shops:[{s:"amazon",q:"pflanze+deko+geschenk+damen"}] },
     { e:"🎬", n:"Film oder Serie zusammen",      d:"Stell ihren Lieblingsfilm an und leg das Handy weg.", hot:false, shops:[{s:"amazon",q:"romantischer+film+dvd+geschenk"}] },
     { e:"☕", n:"Besondere Kaffeekapseln",       d:"Ein alltägliches Detail, das sehr geschätzt wird.",   hot:false, shops:[{s:"amazon",q:"kaffeekapseln+geschenk+gourmet"}] },
-    { e:"🍕", n:"Bestell ihr Lieblingsessen",   d:"Manchmal ist das Einfachste das Beste. 🍕",           hot:false, shops:[{s:"amazon",q:"pizza+gourmet+geschenk+set"}] },
+    { e:"🍕", n:"Bestell ihr Lieblingsessen",   d:"Manchmal ist das Einfachste das Beste. 🍕",          hot:false, shops:[{s:"amazon",q:"pizza+gourmet+geschenk+set"}] },
     { e:"🧸", n:"Kuscheltier oder nostalgisches Detail", d:"Ein Gruß an die Vergangenheit, der verbindet.", hot:false, shops:[{s:"amazon",q:"kuscheltier+geschenk+erwachsene"}] },
-    { e:"🖼️", n:"Gerahmtes Foto von euch",      d:"Das persönlichste Geschenk, das es gibt.",            hot:true,  shops:[{s:"amazon",q:"bilderrahmen+geschenk+paar+personalisiert"}] },
+    { e:"🖼️", n:"Gerahmtes Foto von euch",     d:"Das persönlichste Geschenk, das es gibt.",           hot:true,  shops:[{s:"amazon",q:"bilderrahmen+geschenk+paar+personalisiert"}] },
   ],
 };
 
@@ -779,7 +785,7 @@ function calculate() {
       ? `${phase.emoji} ${phase.name} · Tag ${cDay} des Zyklus`
       : `${phase.emoji} ${phase.name}`;
     ph.innerHTML =
-      `<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:10px;font-style:normal;">${phaseLine}</div>` +
+      `<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.62);text-transform:uppercase;margin-bottom:10px;font-style:normal;">${phaseLine}</div>` +
       `<div style="font-style:italic;">"${advice}"</div>`;
   }
 
@@ -793,7 +799,7 @@ function calculate() {
         ? 'Die Zahl wird anhand der persönlichen Biorhythmen Deiner Partnerin berechnet: emotional 45%, körperlich 30%, intellektuell 25%.'
         : 'Kein aktiver Menstruationszyklus. Die Zahl wird anhand der persönlichen Biorhythmen berechnet: emotional 45%, körperlich 30%, intellektuell 25%.';
       menoNote.style.display = 'flex';
-      menoNote.innerHTML = `<span style="font-size:20px">${noteEmoji}</span><div><b style="color:#a78bfa">${noteTitle}</b><br><span style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">${noteText}</span></div>`;
+      menoNote.innerHTML = `<span style="font-size:20px">${noteEmoji}</span><div><b style="color:#a78bfa">${noteTitle}</b><br><span style="font-size:12px;color:rgba(255,255,255,0.75);line-height:1.6">${noteText}</span></div>`;
     } else {
       menoNote.style.display = 'none';
     }
@@ -813,8 +819,8 @@ function calculate() {
       _pb.innerHTML = '<div style="text-align:center;padding:20px;background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,154,92,0.06));border:1px solid rgba(255,107,53,0.25);border-radius:20px;">'
         + '<div style="font-size:28px;margin-bottom:8px">🔥</div>'
         + '<div style="font-size:18px;font-weight:600;color:#ff9a5c;margin-bottom:4px">Du bist im Pro-Modus</div>'
-        + '<div style="font-size:13px;color:rgba(255,255,255,0.45)">30-Tage-Kalender aktiv · Danke für Deine Unterstützung ✦</div>'
-        + '<div style="margin-top:12px"><a href="https://billing.stripe.com/p/login/bJe3cu4QNgje5GB2bk0Ba00" target="_blank" style="font-size:12px;color:rgba(255,255,255,0.35);text-decoration:underline;">Abo verwalten oder kündigen →</a></div>'
+        + '<div style="font-size:13px;color:rgba(255,255,255,0.68)">30-Tage-Kalender aktiv · Danke für Deine Unterstützung ✦</div>'
+        + '<div style="margin-top:12px"><a href="https://billing.stripe.com/p/login/bJe3cu4QNgje5GB2bk0Ba00" target="_blank" style="font-size:12px;color:rgba(255,255,255,0.62);text-decoration:underline;">Abo verwalten oder kündigen →</a></div>'
         + '</div>';
     }
   } else {
@@ -842,7 +848,7 @@ function renderGifts(idx) {
       <span style="font-size:26px">🎁</span>
       <div>
         <div style="font-size:15px;font-weight:700;color:#fff">${label}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px">${sub}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px">${sub}</div>
       </div>
     </div>`;
 
@@ -867,7 +873,7 @@ function renderGifts(idx) {
             <div style="font-size:14px;font-weight:700;color:#ff9900;">
               🛒 Bei ${sh.n} kaufen
             </div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">
               ${idx >= 78 ? (g.hot ? '🔥 Jetzt ist der Moment — verpass ihn nicht' : 'Überrasch sie heute, die Stimmung ist perfekt ✨') :idx >= 58 ? (g.hot ? 'Bereite ein Detail vor — der Tag spielt mit 💝' : 'Eine besondere Geste kommt immer gut an 🌸') :'Ein unerwartetes Geschenk macht jeden Tag schöner 🎁'}
             </div>
           </div>
@@ -881,7 +887,7 @@ function renderGifts(idx) {
           <span style="font-size:26px;min-width:32px;text-align:center">${g.e}</span>
           <div style="flex:1">
             <div style="font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;flex-wrap:wrap">${g.n}${topBadge}</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px">${g.d}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.68);margin-top:3px">${g.d}</div>
           </div>
         </div>
         <div style="padding:0 14px 14px;">
@@ -891,7 +897,7 @@ function renderGifts(idx) {
   });
 
   // Affiliate note
-  html += `<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.25);line-height:1.6;margin-top:8px">
+  html += `<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.55);line-height:1.6;margin-top:8px">
     💛 Über diese Links unterstützt Du die App — ohne Mehrkosten für Dich.
   </p>`;
 
@@ -978,7 +984,7 @@ function renderProBanner() {
     <div class="pro-banner">
       <div class="pro-badge">✨ PRO</div>
       <div class="pro-title">UND DIE NÄCHSTEN 30 TAGE?</div>
-      <p style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:16px;line-height:1.6">
+      <p style="font-size:14px;color:rgba(255,255,255,0.75);margin-bottom:16px;line-height:1.6">
         Erfahre auf einen Blick, welche die besten Tage des Monats sind.<br>Plane im Voraus.
       </p>
       <div class="pro-features">
@@ -1045,7 +1051,7 @@ function renderProCalendar(bd, pd, isMeno) {
         <div class="best-days-title">🏆 Top 5 beste Tage</div>
         ${top5Html}
       </div>
-      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.25);margin-top:14px">
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.55);margin-top:14px">
         Möchtest Du kündigen? Schreib uns an hola@hoy-mojo.com
       </p>
     </div>`;
