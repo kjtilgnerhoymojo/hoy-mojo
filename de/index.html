@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoy Mojo — Hast du heute Sex oder wieder nicht?</title>
+<meta name="description" content="Finde heraus ob heute Dein Glückstag ist. Biorhythmus-Rechner für Paare. Kostenlos und anonym.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{background:#111;color:#fff;font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:14px 24px;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(17,17,17,0.95);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;letter-spacing:3px;background:linear-gradient(135deg,#ff6b35,#ff9a5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#navProBadge{display:none;background:linear-gradient(135deg,#ff6b35,#ff9a5c);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:#fff;letter-spacing:2px;}
+.nav-cta{background:linear-gradient(135deg,#ff6b35,#ff9a5c);border:none;border-radius:30px;padding:9px 22px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:#fff;cursor:pointer;text-decoration:none;}
+
+/* MAIN LAYOUT — split screen on desktop */
+.main{
+  min-height:100vh;padding-top:56px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+/* LEFT — headline */
+.left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:60px 48px 60px 48px;
+  border-right:1px solid rgba(255,255,255,0.06);
+  position:relative;overflow:hidden;
+}
+.left::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 20% 50%,rgba(255,107,53,0.1),transparent 70%);
+}
+.hero-badge{
+  display:inline-flex;align-items:center;
+  background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.25);
+  border-radius:30px;padding:5px 16px;font-size:11px;color:#ff9a5c;
+  letter-spacing:1px;margin-bottom:24px;width:fit-content;position:relative;z-index:1;
+}
+.hero-title{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:clamp(52px,6vw,90px);line-height:0.88;letter-spacing:1px;
+  margin-bottom:24px;position:relative;z-index:1;
+}
+.hero-title .fire{background:linear-gradient(135deg,#ff6b35,#ff9a5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{
+  font-size:clamp(15px,1.5vw,18px);color:rgba(255,255,255,0.55);
+  line-height:1.8;max-width:420px;margin-bottom:28px;position:relative;z-index:1;
+}
+.hero-sub strong{color:rgba(255,255,255,0.9);}
+.hero-note{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;position:relative;z-index:1;}
+
+/* RIGHT — calculator */
+.right{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:48px 40px;background:rgba(255,255,255,0.02);
+}
+.calc-title{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:28px;letter-spacing:2px;margin-bottom:6px;color:rgba(255,255,255,0.9);
+}
+.calc-sub{font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:28px;letter-spacing:0.5px;}
+
+/* Fields */
+.field{margin-bottom:20px;}
+.field-label{font-size:10px;letter-spacing:3px;color:#ff9a5c;text-transform:uppercase;display:block;margin-bottom:8px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:30px;padding:8px 16px;font-size:13px;
+  color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.15s;
+  font-family:'Outfit',sans-serif;
+}
+.chip:hover{border-color:rgba(255,107,53,0.5);color:#fff;}
+.chip.active{border-color:#ff6b35;background:rgba(255,107,53,0.1);color:#ff9a5c;}
+.field-input{
+  width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);border-radius:14px;
+  padding:13px 16px;color:#fff;font-size:14px;
+  font-family:'Outfit',sans-serif;outline:none;transition:border-color 0.2s;
+  color-scheme:dark;
+}
+.field-input:focus{border-color:rgba(255,107,53,0.5);}
+
+/* CALC BUTTON */
+.calc-btn{
+  width:100%;background:linear-gradient(135deg,#ff6b35,#ff9a5c);
+  border:none;border-radius:16px;padding:18px;
+  font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;
+  letter-spacing:3px;color:#fff;cursor:pointer;
+  box-shadow:0 6px 28px rgba(255,107,53,0.35);transition:all 0.2s;margin-top:8px;
+}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(255,107,53,0.45);}
+.calc-btn:disabled{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.25);cursor:not-allowed;box-shadow:none;transform:none;}
+
+/* RESULT */
+#resultSection{display:none;}
+.result-number{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:clamp(80px,10vw,140px);line-height:1;text-align:center;
+  margin-bottom:4px;
+}
+.result-of{font-size:14px;color:rgba(255,255,255,0.3);text-align:center;letter-spacing:4px;margin-bottom:16px;}
+.result-label{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:28px;letter-spacing:3px;text-align:center;margin-bottom:8px;
+}
+.result-hint{font-size:14px;color:rgba(255,255,255,0.5);text-align:center;line-height:1.7;font-style:italic;margin-bottom:24px;padding:0 8px;}
+.result-divider{height:1px;background:rgba(255,255,255,0.07);margin:20px 0;}
+
+/* SCORE CARDS inline */
+.score-mini{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;
+}
+.score-m{border-radius:12px;padding:12px 8px;text-align:center;}
+.score-m-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;}
+.score-m-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-top:3px;opacity:0.7;}
+
+/* AMAZON BTN */
+.amz-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(135deg,rgba(255,153,0,0.2),rgba(255,153,0,0.08));
+  border:1px solid rgba(255,153,0,0.5);border-radius:14px;
+  padding:14px 18px;text-decoration:none;width:100%;
+  font-family:'Outfit',sans-serif;transition:all 0.2s;margin-bottom:10px;
+}
+.amz-btn:hover{background:linear-gradient(135deg,rgba(255,153,0,0.3),rgba(255,153,0,0.15));}
+.amz-title{font-size:14px;font-weight:700;color:#ff9900;}
+.amz-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;}
+
+/* PRO BANNER */
+#proBanner{display:none;}
+.pro-card{
+  background:linear-gradient(135deg,rgba(255,107,53,0.08),rgba(255,154,92,0.04));
+  border:1px solid rgba(255,107,53,0.2);border-radius:16px;padding:20px;
+  text-align:center;margin-top:12px;
+}
+.pro-card h3{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:#ff9a5c;letter-spacing:2px;margin-bottom:6px;}
+.pro-card p{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:14px;}
+.pro-buy-btn{
+  display:block;background:linear-gradient(135deg,#ff6b35,#ff9a5c);
+  border:none;border-radius:12px;padding:12px;width:100%;
+  font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;
+  letter-spacing:2px;color:#fff;cursor:pointer;text-decoration:none;
+  text-align:center;
+}
+
+/* PRO CALENDAR */
+#proCalendar{display:none;}
+
+/* RESET */
+.reset-btn{
+  width:100%;margin-top:10px;background:transparent;
+  border:1px solid rgba(255,255,255,0.08);border-radius:12px;
+  padding:11px;font-size:12px;color:rgba(255,255,255,0.3);
+  cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;
+}
+.reset-btn:hover{border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);}
+
+/* FOOTER */
+footer{
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:20px 28px;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:12px;
+  background:#0d0d0d;
+}
+.footer-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:3px;background:linear-gradient(135deg,#ff6b35,#ff9a5c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;}
+.footer-links a{font-size:11px;color:rgba(255,255,255,0.25);text-decoration:none;}
+.footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+/* MOBILE */
+@media(max-width:768px){
+  .main{grid-template-columns:1fr;}
+  .left{padding:40px 24px 32px;border-right:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+  .right{padding:32px 24px 40px;}
+  .score-mini{grid-template-columns:repeat(2,1fr);}
+}
+
+
+/* PRO BANNER (used by renderProBanner JS) */
+.pro-banner{
+  background:linear-gradient(135deg,rgba(255,107,53,0.08),rgba(255,154,92,0.04));
+  border:1px solid rgba(255,107,53,0.2);border-radius:16px;padding:24px 20px;
+  text-align:center;
+}
+.pro-badge{
+  display:inline-block;background:linear-gradient(135deg,#ff6b35,#ff9a5c);
+  border-radius:20px;padding:4px 14px;font-size:11px;font-weight:700;
+  letter-spacing:1px;color:#fff;margin-bottom:12px;
+}
+.pro-title{
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  font-size:22px;letter-spacing:1px;margin-bottom:10px;color:#fff;
+}
+.pro-features{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px;
+}
+.pro-feature{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px;padding:6px 12px;font-size:11px;color:rgba(255,255,255,0.7);
+}
+.pro-btn{
+  display:block;background:linear-gradient(135deg,#ff6b35,#ff9a5c);
+  border:none;border-radius:14px;padding:15px;width:100%;
+  font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;
+  letter-spacing:1px;color:#fff;cursor:pointer;text-decoration:none;
+  text-align:center;box-shadow:0 6px 24px rgba(255,107,53,0.3);
+}
+.pro-note{
+  font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;letter-spacing:0.5px;
+}
+
+/* PRO CALENDAR (used by renderProCalendar JS) */
+.pro-calendar{
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:20px;
+}
+.pro-cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.pro-cal-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;letter-spacing:1px;}
+.pro-cal-badge{
+  background:linear-gradient(135deg,#ff6b35,#ff9a5c);border-radius:14px;
+  padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:1px;
+}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;}
+.cal-day-header{text-align:center;font-size:10px;color:rgba(255,255,255,0.3);padding-bottom:4px;}
+.cal-day{
+  aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;font-size:10px;cursor:default;
+}
+.cal-day-num{font-size:11px;font-weight:600;}
+.cal-day-idx{font-size:8px;opacity:0.8;}
+.cal-legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:9px;color:rgba(255,255,255,0.4);margin-bottom:18px;}
+.cal-legend-item{display:flex;align-items:center;gap:4px;}
+.cal-legend-dot{width:7px;height:7px;border-radius:50%;}
+.best-days{margin-top:4px;}
+.best-days-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:14px;letter-spacing:1px;margin-bottom:10px;}
+.best-day-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);
+  border-radius:10px;padding:8px 12px;margin-bottom:6px;
+}
+
+</style>
+</head>
+<body>
+<script>
+// Mark that user is viewing German version intentionally (prevents redirect loop)
+sessionStorage.setItem('hm_lang_seen', 'de');
+</script>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">¿HOY MOJO?</div>
+  <div id="navProBadge">✦ PRO</div>
+  <a href="#calcular" class="nav-cta">Berechnen 🔥</a>
+</nav>
+
+<!-- MAIN SPLIT -->
+<div class="main" id="calcular">
+
+  <!-- LEFT: HEADLINE -->
+  <div class="left">
+    <div class="hero-badge">😏 Der Rechner, von dem kein Mann wusste, dass er ihn braucht</div>
+    <h1 class="hero-title">
+      <span class="fire">HAST DU HEUTE</span><br>
+      SEX ODER<br>WIEDER NICHT?
+    </h1>
+    <p class="hero-sub">
+      Ihre Stimmung, ihre Energie und ihre Lust<br>
+      folgen einem <strong>genauen Muster</strong>.<br>
+      Hör auf zu raten — fang an zu wissen.
+    </p>
+    <p class="hero-note">30 SEKUNDEN · KEINE ANMELDUNG · KOSTENLOS · 100% ANONYM</p>
+
+    <!-- Score mini guide -->
+    <div class="score-mini" style="margin-top:36px;">
+      <div class="score-m" style="background:rgba(255,50,50,0.1);border:1px solid rgba(255,50,50,0.25);">
+        <div class="score-m-num" style="color:#ff6b6b;">🔥</div>
+        <div class="score-m-num" style="color:#ff6b6b;font-size:14px;">80-100</div>
+        <div class="score-m-label" style="color:#ff6b6b;">Dein Glückstag</div>
+      </div>
+      <div class="score-m" style="background:rgba(255,153,0,0.1);border:1px solid rgba(255,153,0,0.25);">
+        <div class="score-m-num" style="color:#ff9900;">😏</div>
+        <div class="score-m-num" style="color:#ff9900;font-size:14px;">60-79</div>
+        <div class="score-m-label" style="color:#ff9900;">Gute Chancen</div>
+      </div>
+      <div class="score-m" style="background:rgba(100,200,100,0.08);border:1px solid rgba(100,200,100,0.2);">
+        <div class="score-m-num" style="color:#64c864;">🤷</div>
+        <div class="score-m-num" style="color:#64c864;font-size:14px;">40-59</div>
+        <div class="score-m-label" style="color:#64c864;">Könnte klappen</div>
+      </div>
+      <div class="score-m" style="background:rgba(100,100,255,0.08);border:1px solid rgba(100,100,255,0.2);">
+        <div class="score-m-num" style="color:#8888ff;">🌙</div>
+        <div class="score-m-num" style="color:#8888ff;font-size:14px;">0-39</div>
+        <div class="score-m-label" style="color:#8888ff;">Heute nicht</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: CALCULATOR -->
+  <div class="right">
+    <div id="calcForm">
+      <div class="calc-title">DEIN RECHNER</div>
+      <div class="calc-sub">ZWEI ANGABEN · SOFORTIGES ERGEBNIS</div>
+
+      <div class="field">
+        <label class="field-label">Profil Deiner Partnerin</label>
+        <div class="chips" id="profileChips">
+          <div class="chip" onclick="selectProfile('female_cycle')" id="opt_female_cycle">🌸 Mit Zyklus</div>
+          <div class="chip" onclick="selectProfile('female_no_cycle')" id="opt_female_no_cycle">🌙 Ohne Zyklus</div>
+          <div class="chip" onclick="selectProfile('male')" id="opt_male">⚡ Er</div>
+          <div class="chip" onclick="selectProfile('other')" id="opt_other">✨ Andere</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Geburtsdatum</label>
+        <div id="birthDateCont"></div>
+      </div>
+
+      <div class="field" id="periodField" style="display:none">
+        <label class="field-label">Tage seit ihrer letzten Periode</label>
+        <input type="number" class="field-input" id="periodDays" min="1" max="999" placeholder="Z.B. 14" oninput="updateCalcBtn()">
+      </div>
+
+      <button class="calc-btn" id="calcBtn" onclick="calculate()" disabled>🔥 MEINE ZAHL HERAUSFINDEN</button>
+    </div>
+
+    <!-- RESULT -->
+    <div id="resultSection">
+      <div class="result-number" id="gaugeNum">--</div>
+      <div class="result-of">VON 100</div>
+      <div class="result-label" id="resultLabel">--</div>
+      <div class="result-hint" id="phaseHint"></div>
+
+      <div id="menoNote" style="display:none;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:12px;padding:12px 14px;font-size:12px;color:rgba(200,180,255,0.8);text-align:center;margin-bottom:16px;line-height:1.6;"></div>
+
+      <div class="result-divider"></div>
+
+      <!-- Gifts -->
+      <div id="giftsSection"></div>
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.2);margin-top:8px;">💛 Über diese Links unterstützt Du die App — ohne Mehrkosten für Dich.</p>
+
+      <div class="result-divider"></div>
+
+      <!-- Pro banner -->
+      <div id="proBanner"></div>
+
+      <!-- Pro calendar -->
+      <div id="proCalendar"></div>
+      <div id="pdfCard" style="display:none;align-items:center;gap:14px;background:rgba(255,107,53,0.06);border:1px solid rgba(255,107,53,0.2);border-radius:14px;padding:14px 18px;margin-top:10px;">
+        <div style="font-size:28px;">📄</div>
+        <div style="flex:1;"><h4 style="font-size:14px;margin-bottom:3px;">Dein Monatskalender</h4><p style="font-size:12px;color:rgba(255,255,255,0.4);">Lade die nächsten 30 Tage herunter</p></div>
+        <button onclick="downloadPDF()" style="background:linear-gradient(135deg,#ff6b35,#ff9a5c);border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;">⬇ PDF</button>
+      </div>
+
+      <button class="reset-btn" onclick="resetCalc()">← Neu berechnen</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">¿HOY MOJO?</div>
+  <div class="footer-links">
+    <a href="legal.html">Datenschutz</a>
+    <a href="/" style="margin-right:4px">🇪🇸 Español</a>
+    <a href="https://billing.stripe.com/p/login/bJe3cu4QNgje5GB2bk0Ba00" target="_blank">Bist Du Pro? Abo verwalten →</a>
+  </div>
+  <div style="font-size:10px;color:rgba(255,255,255,0.15);">© 2026 HoyMojo.com · Mit 🔥 gemacht</div>
+</footer>
+
+<script>
+// ── ENGINE ──────────────────────────────────────────────────────────────────
+
+function daysSince(date) {
+  return Math.floor((Date.now() - new Date(date).getTime()) / 86400000);
+}
+function bio(days, p) { return Math.sin(2 * Math.PI * days / p); }
+
+function getCyclePhase(d) {
+  if (d <= 5)  return { name:"Menstruation",    emoji:"🔴", score:0.15, hint:"Heute besser nicht. Morgen ist auch noch ein Tag." };
+  if (d <= 13) return { name:"Follikelphase",   emoji:"🌱", score:0.55, hint:"Die Energie steigt..." };
+  if (d <= 16) return { name:"Eisprung",        emoji:"🔥", score:1.00, hint:"Der Höhepunkt des Zyklus!" };
+  if (d <= 24) return { name:"Lutealphase",     emoji:"🌕", score:0.50, hint:"Moderate Energie, hohe emotionale Verbindung." };
+  return              { name:"Prämenstruell",   emoji:"🌧️", score:0.20, hint:"Besser mit viel Geduld und Zuneigung." };
+}
+
+
+
+
+// ── WHEEL DATE PICKER ────────────────────────────────────────────────────────
+var MONTHS_NAMES = ['Januar','Februar','März','April','Mai','Juni',
+  'Juli','August','September','Oktober','November','Dezember'];
+var _wVals  = {};
+var _wItems = {};
+var ITEM_H  = 40;
+
+function buildWheelDate(containerId, prefix) {
+  var c = document.getElementById(containerId);
+  if (!c) return;
+  var days = [], months = [], years = [];
+  for (var i=1; i<=31; i++) days.push({v:(i<10?'0':'')+i, l:''+i});
+  for (var i=0; i<12; i++) months.push({v:(i<9?'0':'')+(i+1), l:MONTHS_NAMES[i]});
+  for (var i=0; i<69; i++) years.push({v:''+(2008-i), l:''+(2008-i)});
+  _wItems[prefix+'_d'] = days;
+  _wItems[prefix+'_m'] = months;
+  _wItems[prefix+'_y'] = years;
+  _wVals[prefix+'_d']  = '';
+  _wVals[prefix+'_m']  = '';
+  _wVals[prefix+'_y']  = '';
+
+  function makeCol(wid, items, cls, label) {
+    var html = '<div class="wheel-col '+cls+'">'
+      + '<div class="wheel-wrap">'
+      + '<div class="wheel-fade-top" style="background:linear-gradient(to bottom,#0d0d0d,transparent)"></div>'
+      + '<div class="wheel-line"></div>'
+      + '<div class="wheel-scroll" id="'+wid+'_sc">'
+      + '<div class="wheel-pad"></div>';
+    for (var j=0; j<items.length; j++) {
+      html += '<div class="wheel-item" data-i="'+j+'" data-v="'+items[j].v+'">'+items[j].l+'</div>';
+    }
+    html += '<div class="wheel-pad"></div></div>'
+      + '<div class="wheel-fade-bot" style="background:linear-gradient(to top,#0d0d0d,transparent)"></div>'
+      + '</div>'
+      + '<div class="wheel-col-label">'+label+'</div>'
+      + '</div>';
+    return html;
+  }
+
+  c.innerHTML = '<div class="wheel-date">'
+    + makeCol(prefix+'_d', days,   'w-day',  'Tag')
+    + makeCol(prefix+'_m', months, 'w-mon',  'Monat')
+    + makeCol(prefix+'_y', years,  'w-year', 'Jahr')
+    + '</div>';
+
+  // Attach listeners after DOM is ready
+  [prefix+'_d', prefix+'_m', prefix+'_y'].forEach(function(wid) {
+    var sc = document.getElementById(wid+'_sc');
+    if (!sc) return;
+
+    function readPos() {
+      var idx = Math.max(0, Math.min(_wItems[wid].length-1, Math.round(sc.scrollTop / ITEM_H)));
+      selectWheelIdx(wid, idx);
+    }
+
+    // Click → instant
+    sc.querySelectorAll('.wheel-item').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var idx = parseInt(el.getAttribute('data-i'));
+        sc.scrollTop = idx * ITEM_H;
+        selectWheelIdx(wid, idx);
+      });
+    });
+
+    // Scroll debounce (desktop + some mobile)
+    var st;
+    sc.addEventListener('scroll', function() {
+      clearTimeout(st);
+      st = setTimeout(readPos, 300);
+    }, {passive:true});
+
+    // TouchEnd = user lifted finger → wait for snap animation
+    sc.addEventListener('touchend', function() {
+      setTimeout(readPos, 400);
+    }, {passive:true});
+
+    // Pointer up (covers mouse + stylus + some touch)
+    sc.addEventListener('pointerup', function() {
+      setTimeout(readPos, 350);
+    }, {passive:true});
+  });
+}
+
+function selectWheelIdx(wid, idx) {
+  if (!_wItems[wid] || idx < 0 || idx >= _wItems[wid].length) return;
+  _wVals[wid] = _wItems[wid][idx].v;
+  var sc = document.getElementById(wid+'_sc');
+  if (sc) {
+    sc.querySelectorAll('.wheel-item').forEach(function(el, i) {
+      el.classList.toggle('sel', i === idx);
+    });
+  }
+  updateCalcBtn();
+}
+
+function getWheelDateVal(prefix) {
+  var d = _wVals[prefix+'_d'] || '';
+  var m = _wVals[prefix+'_m'] || '';
+  var y = _wVals[prefix+'_y'] || '';
+  return (d && m && y) ? (y+'-'+m+'-'+d) : '';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildWheelDate('birthDateCont', 'bd');
+});
+
+// ── NORMALIZE TO PROFILE CEILING ─────────────────────────────────────────────
+function getCeiling(hasCycle) {
+  return hasCycle ? 98 : 95;
+}
+function normalize(rawIdx, hasCycle) {
+  return Math.min(100, Math.round(rawIdx / getCeiling(hasCycle) * 100));
+}
+function normalizeCoupled(rawIdx, p1Cycle, p2Cycle) {
+  const ceiling = (p1Cycle || p2Cycle) ? 95 : 88;
+  return Math.min(100, Math.round(rawIdx / ceiling * 100));
+}
+function getVerdict(i) {
+  if (i >= 78) return { emoji:"🔥🔥🔥", title:"DEIN GLÜCKSTAG!",  sub:"Alles deutet darauf hin. Verbock es nicht!", color:"#ff6b35", bg:"rgba(255,107,53,0.1)", border:"rgba(255,107,53,0.3)" };
+  if (i >= 58) return { emoji:"😏",      title:"Gute Chancen",     sub:"Die Bedingungen sind günstig.",              color:"#f5c842", bg:"rgba(245,200,66,0.08)", border:"rgba(245,200,66,0.25)" };
+  if (i >= 38) return { emoji:"🤷",      title:"Könnte klappen",   sub:"Streng Dich an, sonst wird es ein Abend auf dem Sofa 😄", color:"#7ec8e3", bg:"rgba(126,200,227,0.08)", border:"rgba(126,200,227,0.25)" };
+  return              { emoji:"🥶",      title:"Heute nicht",      sub:"Mach Dir keinen Stress — Netflix ist auch schön!", color:"#a78bfa", bg:"rgba(167,139,250,0.08)", border:"rgba(167,139,250,0.25)" };
+}
+
+// Intellectual biorhythm: 33-day cycle
+
+// ── GIFT DATA ────────────────────────────────────────────────────────────────
+
+// Detect country for Amazon geo-routing via IP
+let AMAZON_TAG = { domain:'es', tag:'klaushoymojo-21' }; // default ES
+
+(function() {
+  try {
+    // Check cache first (valid 24h)
+    const cached = localStorage.getItem('amz_geo');
+    const cachedTs = parseInt(localStorage.getItem('amz_geo_ts') || '0');
+    if (cached && Date.now() - cachedTs < 86400000) {
+      AMAZON_TAG = JSON.parse(cached);
+      return;
+    }
+    // Fetch IP-based country
+    fetch('https://ipapi.co/country/', { cache: 'force-cache' })
+      .then(r => r.text())
+      .then(country => {
+        country = country.trim().toUpperCase();
+        let tag;
+        if (['US','CA','GB'].includes(country)) {
+          tag = { domain:'com', tag:'hoymojo-20' };
+        } else if (country === 'DE') {
+          tag = { domain:'de', tag:'klaushoymojo-21' };
+        } else {
+          tag = { domain:'es', tag:'klaushoymojo-21' };
+        }
+        AMAZON_TAG = tag;
+        localStorage.setItem('amz_geo', JSON.stringify(tag));
+        localStorage.setItem('amz_geo_ts', Date.now().toString());
+      })
+      .catch(() => {}); // silently fail, keep default
+  } catch(e) {}
+})();
+
+const SHOPS = {
+  amazon: { n:"Amazon", c:"#ff9900", bg:"rgba(255,153,0,0.15)", b:"rgba(255,153,0,0.4)", u:(q)=>`https://www.amazon.${AMAZON_TAG.domain}/s?k=${q}&tag=${AMAZON_TAG.tag}` },
+};
+
+const GIFT_POOLS = {
+  high: [
+    { e:"🌹", n:"Premium-Blumenstrauß",         d:"Heute noch geliefert. Geht immer.",                   hot:true,  shops:[{s:"amazon",q:"blumenstrauss+frauen+geschenk"}] },
+    { e:"💎", n:"Luxus-Parfüm",                 d:"Dior, YSL, Lancôme, Chanel...",                       hot:true,  shops:[{s:"amazon",q:"parfum+frauen+geschenk+luxus"}] },
+    { e:"👙", n:"Besondere Dessous",            d:"Für den perfekten Anlass.",                           hot:true,  shops:[{s:"amazon",q:"dessous+geschenk+damen"}] },
+    { e:"💍", n:"Schmuck oder edle Accessoires", d:"Ein Detail, das man nicht vergisst.",                hot:false, shops:[{s:"amazon",q:"schmuck+geschenk+damen+besonders"}] },
+    { e:"🥂", n:"Premium-Champagner",           d:"Moët, Veuve Clicquot... der perfekte Abend.",        hot:false, shops:[{s:"amazon",q:"champagner+geschenk+premium"}] },
+    { e:"🎁", n:"Überraschungs-Geschenkbox",    d:"Eine kuratierte Box voller Details für sie.",         hot:false, shops:[{s:"amazon",q:"geschenkbox+ueberraschung+damen"}] },
+    { e:"🧴", n:"Luxus-Creme oder Serum",       d:"La Mer, Clarins, Lancôme. Ein echter Luxus.",        hot:false, shops:[{s:"amazon",q:"creme+luxus+geschenk+damen"}] },
+    { e:"🌸", n:"Paar-Erlebnis",                d:"Spa, Wellness oder Wochenendausflug.",                hot:true,  shops:[{s:"amazon",q:"paar+erlebnis+spa+geschenk"}] },
+    { e:"🎀", n:"Premium-Tasche oder Accessoire", d:"Ein gutes Detail enttäuscht nie.",                  hot:false, shops:[{s:"amazon",q:"tasche+damen+premium+geschenk"}] },
+  ],
+  medium: [
+    { e:"🕯️", n:"Premium-Duftkerzen",          d:"Die Atmosphäre ist alles.",                          hot:true,  shops:[{s:"amazon",q:"duftkerzen+romantisch+geschenk"}] },
+    { e:"💆", n:"Massage-Set",                  d:"Öle, Kerzen... alles inklusive.",                     hot:true,  shops:[{s:"amazon",q:"massage+set+paar+oele"}] },
+    { e:"🍫", n:"Premium-Pralinen",             d:"Ferrero, Lindt, Godiva. Geht immer.",                 hot:false, shops:[{s:"amazon",q:"pralinen+premium+geschenk+damen"}] },
+    { e:"🛁", n:"Luxus-Badeset",                d:"Badebomben, Salze, duftende Cremes.",                 hot:false, shops:[{s:"amazon",q:"badeset+luxus+geschenk+damen"}] },
+    { e:"🍷", n:"Besondere Weinflasche",        d:"Ein guter Rotwein oder ein Roséwein.",                hot:false, shops:[{s:"amazon",q:"wein+geschenk+besonders+flasche"}] },
+    { e:"🌺", n:"Pflanze oder Trockenblumen",   d:"Voll im Trend. Hält ewig.",                           hot:false, shops:[{s:"amazon",q:"trockenblumen+deko+geschenk"}] },
+    { e:"📖", n:"Das Buch, das sie lesen wollte", d:"Frag sie oder schau ihre Wunschliste an. 😊",      hot:false, shops:[{s:"amazon",q:"buch+geschenk+frauen+2025"}] },
+    { e:"🎧", n:"Premium-Kopfhörer",            d:"AirPods, kabellose Kopfhörer...",                     hot:false, shops:[{s:"amazon",q:"kopfhoerer+kabellos+geschenk"}] },
+    { e:"🧖", n:"Gesichtsserum oder Maske",     d:"Ein Skincare-Luxus, der immer gut ankommt.",          hot:false, shops:[{s:"amazon",q:"gesichtsserum+geschenk+damen"}] },
+    { e:"🎨", n:"Bastel- oder Kunst-Set",       d:"Wenn sie kreativ ist, liebt sie das.",                hot:false, shops:[{s:"amazon",q:"bastelset+kunst+geschenk+damen"}] },
+  ],
+  low: [
+    { e:"📚", n:"Die 5 Sprachen der Liebe", d:"Der Bestseller über Paare. Investiert in euch.",         hot:true,  shops:[{s:"amazon",q:"die+5+sprachen+der+liebe+buch"}] },
+    { e:"🎲", n:"Paar-Spiel",                   d:"Für einen anderen Abend zu Hause.",                   hot:true,  shops:[{s:"amazon",q:"paarspiel+erwachsene+unterhaltung"}] },
+    { e:"🌿", n:"Schöne Pflanze oder Sukkulente", d:"Eine unerwartete Geste, die immer ankommt.",        hot:false, shops:[{s:"amazon",q:"pflanze+deko+geschenk+damen"}] },
+    { e:"🧘", n:"Spa-Gutschein",                d:"Das meist geschätzte Geschenk. Ohne Hintergedanken.", hot:false, shops:[{s:"amazon",q:"spa+gutschein+erlebnis+damen"}] },
+    { e:"🎬", n:"Film oder Serie zusammen",      d:"Stell ihren Lieblingsfilm an und leg das Handy weg.", hot:false, shops:[{s:"amazon",q:"romantischer+film+dvd+geschenk"}] },
+    { e:"☕", n:"Besondere Kaffeekapseln",       d:"Ein alltägliches Detail, das sehr geschätzt wird.",   hot:false, shops:[{s:"amazon",q:"kaffeekapseln+geschenk+gourmet"}] },
+    { e:"🍕", n:"Bestell ihr Lieblingsessen",   d:"Manchmal ist das Einfachste das Beste. 🍕",           hot:false, shops:[{s:"amazon",q:"pizza+gourmet+geschenk+set"}] },
+    { e:"🧸", n:"Kuscheltier oder nostalgisches Detail", d:"Ein Gruß an die Vergangenheit, der verbindet.", hot:false, shops:[{s:"amazon",q:"kuscheltier+geschenk+erwachsene"}] },
+    { e:"🖼️", n:"Gerahmtes Foto von euch",      d:"Das persönlichste Geschenk, das es gibt.",            hot:true,  shops:[{s:"amazon",q:"bilderrahmen+geschenk+paar+personalisiert"}] },
+  ],
+};
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function getGifts(idx) {
+  if (idx >= 65) return { label:"🔥 Überrasch sie heute Nacht", sub:"Geschenkideen für den perfekten Moment", gifts: shuffle(GIFT_POOLS.high).slice(0,4) };
+  if (idx >= 40) return { label:"🕯️ Kipp die Waage zu Deinen Gunsten", sub:"Ein Detail kann alles ändern",  gifts: shuffle(GIFT_POOLS.medium).slice(0,4) };
+  return               { label:"💡 Investiere in die Zukunft",  sub:"Heute säen, morgen ernten 😄",          gifts: shuffle(GIFT_POOLS.low).slice(0,4) };
+}
+
+// getGifts now included in GIFT_POOLS block above
+
+// ── CALCULATE ────────────────────────────────────────────────────────────────
+
+function calculate() {
+  const bd      = getWheelDateVal('bd');
+  const profile = window.selectedProfile || 'female_no_cycle';
+  if (!bd) return;
+
+  // Period only needed for female_cycle
+  const hasCycle = profile === 'female_cycle';
+  const pd       = hasCycle ? parseInt(document.getElementById('periodDays').value) : 0;
+  if (hasCycle && (isNaN(pd) || pd < 1)) return;
+
+  // isMeno: no cycle available
+  const isMeno = !hasCycle;
+
+  const days  = daysSince(bd);
+  const emo   = bio(days, 28);
+  const fis   = bio(days, 23);
+  const int_  = bio(days, 33);
+  const cDay  = hasCycle ? (((pd % 28) + 28) % 28 || 28) : null;
+  const phase = hasCycle
+    ? getCyclePhase(cDay)
+    : { name: profile === 'male' ? 'Persönliche Biorhythmen' : 'Kein aktiver Zyklus',
+        emoji: profile === 'male' ? '⚡' : '🌙',
+        score: 0,
+        hint: profile === 'male' ? 'Berechnung basierend auf persönlichen Biorhythmen' : 'Berechnung basierend auf persönlichen Biorhythmen' };
+
+  // Weights:
+  // female_cycle:    50% cycle + 25% emo + 15% fis + 10% int
+  // everything else: 45% emo  + 30% fis + 25% int  (no cycle)
+  const raw = hasCycle
+    ? phase.score * 0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10
+    : ((emo+1)/2)*0.45   + ((fis+1)/2)*0.30  + ((int_+1)/2)*0.25;
+  const rawIdx = Math.round(raw * 100);
+  const idx   = normalize(rawIdx, hasCycle);
+  const emoP  = Math.round(((emo+1)/2)*100);
+  const fisP  = Math.round(((fis+1)/2)*100);
+  const intP  = Math.round(((int_+1)/2)*100);
+  const v     = getVerdict(idx);
+
+  // Show result
+  const rc = document.getElementById('resultSection');
+  rc.style.background = v.bg;
+  rc.style.border = `1.5px solid ${v.border}`;
+
+  // no emoji element
+  document.getElementById('resultLabel').style.color = v.color;
+  (document.getElementById('resultLabel')||{style:{},textContent:'',innerHTML:''}).textContent = v.title;
+  (document.getElementById('result-sub-placeholder')||{style:{},textContent:'',innerHTML:''}).textContent = v.sub;
+
+  // Flames
+  const fl = document.getElementById('flames');
+  fl.innerHTML = '';
+  if (idx >= 78) {
+    for (let i=0;i<8;i++) {
+      const f = document.createElement('div');
+      f.className = 'flame';
+      f.style.cssText = `left:${10+i*11}%;width:${6+(i%3)*4}px;height:${18+(i%4)*14}px;background:radial-gradient(ellipse at bottom,rgba(255,107,53,0.7),transparent);animation:flameAnim ${0.8+(i%4)*0.3}s ease-in-out ${i*0.1}s infinite alternate;`;
+      fl.appendChild(f);
+    }
+  }
+
+  // Gauge animation
+  const circ = 2 * Math.PI * 68;
+  const gc = document.getElementById('gaugeCircle');
+  gc.style.stroke = v.color;
+  gc.style.filter = `drop-shadow(0 0 10px ${v.color}66)`;
+  gc.style.transition = 'stroke-dasharray 1.3s cubic-bezier(.4,0,.2,1)';
+  gc.style.strokeDasharray = `0 ${circ}`;
+  setTimeout(() => { gc.style.strokeDasharray = `${(idx/100)*circ} ${circ}`; }, 50);
+
+  // Gauge number count up
+  const gn = document.getElementById('gaugeNum');
+  gn.style.color = v.color;
+  let cur = 0;
+  const timer = setInterval(() => { cur = Math.min(cur+2, idx); gn.textContent = cur; if(cur>=idx) clearInterval(timer); }, 20);
+
+  // Phase
+  document.getElementById('phaseBadge').textContent = hasCycle ? `${phase.emoji} ${phase.name} · Tag ${cDay} des Zyklus` : `${phase.emoji} ${phase.name}`;
+  document.getElementById('phaseHint').textContent = `"${phase.hint}"`;
+
+  // Profile note
+  const menoNote = document.getElementById('menoNote');
+  if (!hasCycle) {
+    const noteEmoji = profile === 'male' ? '⚡' : '🌙';
+    const noteTitle = profile === 'male' ? 'Reiner Biorhythmus-Modus' : 'Modus ohne aktiven Zyklus';
+    const noteText  = profile === 'male'
+      ? 'Die Zahl wird anhand der persönlichen Biorhythmen Deiner Partnerin berechnet: emotional 45%, körperlich 30%, intellektuell 25%.'
+      : 'Kein aktiver Menstruationszyklus. Die Zahl wird anhand der persönlichen Biorhythmen berechnet: emotional 45%, körperlich 30%, intellektuell 25%.';
+    menoNote.style.display = 'flex';
+    menoNote.innerHTML = `<span style="font-size:20px">${noteEmoji}</span><div><b style="color:#a78bfa">${noteTitle}</b><br><span style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">${noteText}</span></div>`;
+  } else {
+    menoNote.style.display = 'none';
+  }
+
+  // Stats
+  document.getElementById('statEmo').textContent = emoP + '%';
+  document.getElementById('statEmoBar').style.width = emoP + '%';
+  document.getElementById('statFis').textContent = fisP + '%';
+  document.getElementById('statFisBar').style.width = fisP + '%';
+  document.getElementById('statInt').textContent = intP + '%';
+  document.getElementById('statIntBar').style.width = intP + '%';
+  document.getElementById('statIdx').textContent = idx + '%';
+  document.getElementById('statIdx').style.color = v.color;
+  document.getElementById('statIdxBar').style.width = idx + '%';
+  document.getElementById('statIdxBar').style.background = v.color;
+
+  // Advice — random from pool per level
+  const ADVICE = {
+    high: [
+      "Die Sterne stehen gut — aber das ist keine Ausrede, die Details zu vergessen. Eine schöne Geste bleibt das beste Aphrodisiakum. 😉",
+      "Heute Nacht ist das Universum auf Deiner Seite. Aber das Universum reserviert keinen Tisch — das machst Du. 🍷",
+      "Biorhythmus auf Höchststand. Jetzt fehlt nur noch, dass Du in letzter Zeit aufmerksam warst. 😏",
+      "Alle Zeichen stehen gut. Verschwende es nicht mit dem Handy in der Hand. 📵",
+      "Die Bedingungen sind perfekt. Eine Schultermassage kann der beste Auftakt sein. 💆",
+      "Goldener Moment. Vergiss heute Netflix und richte Deine ganze Aufmerksamkeit dorthin, wo sie hingehört. 🎯",
+      "Der Zyklus sagt ja. Dein nächster Schritt zählt — mach ihn mit Absicht. ✨",
+      "Alles deutet gut. Und wenn Du nebenbei den Geschirrspüler ausgeräumt hast, ohne dass man Dich bitten musste... unaufhaltbar. 🍽️",
+    ],
+    mid: [
+      "Der Moment ist günstig, aber nicht garantiert. Etwas Romantik kann die Waage neigen. 🕯️",
+      "Die Bedingungen sind gut, aber nicht außergewöhnlich. Eine unerwartete Aufmerksamkeit kann den Unterschied machen. 🌹",
+      "Günstiges Terrain. Ein Abendessen, ein Lied, oder einfach das Handy weglegen und zuhören. 🎵",
+      "Der Biorhythmus ist gut gelaunt. Schlag heute Abend etwas anderes vor — ein Spaziergang zählt auch. 🌙",
+      "Gute Chancen. Romantik verfällt nicht — hol etwas zurück, das früher funktioniert hat. 💌",
+      "Die Energie spielt mit. Kein perfekter Plan nötig, nur echte Präsenz. 🙌",
+      "Der Moment hilft. Denk dran: Verführung beginnt Stunden vorher, nicht fünf Minuten vorher. ⏰",
+      "Günstige Bedingungen. Eine schöne Nachricht am Nachmittag kann den Boden vorbereiten. 📱",
+    ],
+    mid2: [
+      "Auch der beste Biorhythmus ersetzt keine Kommunikation. Verbinde Dich zuerst emotional. 💬",
+      "Neutrale Zone. Heute mehr als je zuvor zählt Zuhören mehr als jede andere Strategie. 👂",
+      "Fifty-fifty. Der Unterschied liegt daran, wie Du nach Hause kommst — mit Energie oder im Autopilot. 🚗",
+      "Der Biorhythmus zieht weder nach oben noch nach unten. Deine Einstellung heute Nachmittag entscheidet. 🎲",
+      "Zweideutiger Moment. Frag wie der Tag war und hör wirklich zu — das ist mächtiger als Du denkst. 💭",
+      "Die Umstände helfen nicht und schaden nicht. Jetzt liegt es an Dir. 🤝",
+      "Neutrales Terrain. Wenn es aufgestaute Spannung gibt, ist heute ein guter Tag, sie ruhig zu klären. ☕",
+      "Graue Zone. Ein Glas Wein und ein Gespräch ohne Bildschirme können die Stimmung ändern. 🍷",
+    ],
+    low: [
+      "Der Körper braucht Ruhe. Ein Sofa-Nachmittag mit Film und Decke kann genau das Richtige sein. 🛋️",
+      "Heute bitten die Sterne um eine Pause. Ein warmes Bad ohne Fragen kann das beste Geschenk sein. 🛁",
+      "Niedriger Biorhythmus. Nutze es, um die Unterstützung zu sein, die sie braucht, ohne Hintergedanken. 🤗",
+      "Das Universum sagt 'heute nicht'. Akzeptiere es elegant und sammle Punkte für morgen. 📈",
+      "Solche Tage sind zum Kümmern da, nicht zum Erobern. Ein warmer Tee und ihr zuhören. 🍵",
+      "Die Energie ist niedrig. Heute ist der beste Zug, nicht zu spielen — auch das ist emotionale Intelligenz. 🧠",
+      "Zyklus in Ruhephase. Bestell Pizza, schalt ihre Lieblingsserie ein und lass sie entscheiden. Pizza gewinnt. 🍕",
+      "Zeit zum Aufladen. Morgen kann ganz anders sein. Geduld ist auch Verführung. ⏳",
+    ],
+    meno: [
+      "Ohne aktiven Zyklus bestimmen die Biorhythmen. Heute ist emotionale Verbindung der Schlüssel. 💜",
+      "Die Berechnung basiert auf reiner Energie. Eine ruhige Atmosphäre ohne Druck ist immer eine gute Wahl. 🕯️",
+      "Die Biorhythmen sprechen — auch der Körper ohne Zyklus hat seinen eigenen Rhythmus. Hör hin. 🌙",
+      "Ohne vorhersehbare hormonelle Höhepunkte zählt die Stimmung des Tages mehr als je zuvor. Wie geht es ihr heute? 💬",
+      "Die persönliche Energie weist den Weg. Heute kann Spontanität Dein bester Verbündeter sein. ✨",
+      "Zeit für Verbindung ohne Erwartungen. Manchmal ist genau das am mächtigsten. 🤝",
+    ]
+  };
+
+  function pickAdvice(pool) {
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  let advice;
+  if (isMeno)        advice = pickAdvice(ADVICE.meno);
+  else if (idx>=78)  advice = pickAdvice(ADVICE.high);
+  else if (idx>=58)  advice = pickAdvice(ADVICE.mid);
+  else if (idx>=38)  advice = pickAdvice(ADVICE.mid2);
+  else               advice = pickAdvice(ADVICE.low);
+
+  document.getElementById('adviceText').textContent = advice;
+
+  // Store for Pro calendar
+  isMenoGlobal = !hasCycle;
+  lastBd = bd;
+  lastPd = hasCycle ? pd : 0;
+
+  // Pro — show BEFORE gifts so user sees it immediately
+  if (checkProStatus()) {
+    renderProCalendar(bd, pd, isMeno);
+    var _pb = document.getElementById('proBanner');
+    if (_pb) {
+      _pb.style.display = 'block';
+      _pb.innerHTML = '<div style="text-align:center;padding:20px;background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,154,92,0.06));border:1px solid rgba(255,107,53,0.25);border-radius:20px;">'
+        + '<div style="font-size:28px;margin-bottom:8px">🔥</div>'
+        + '<div style="font-size:18px;font-weight:600;color:#ff9a5c;margin-bottom:4px">Du bist im Pro-Modus</div>'
+        + '<div style="font-size:13px;color:rgba(255,255,255,0.45)">30-Tage-Kalender aktiv · Danke für Deine Unterstützung ✦</div>'
+        + '<div style="margin-top:12px"><a href="https://billing.stripe.com/p/login/bJe3cu4QNgje5GB2bk0Ba00" target="_blank" style="font-size:12px;color:rgba(255,255,255,0.35);text-decoration:underline;">Abo verwalten oder kündigen →</a></div>'
+        + '</div>';
+    }
+  } else {
+    renderProBanner();
+    document.getElementById('proCalendar').style.display = 'none';
+  }
+
+  // Gifts — shown after Pro banner
+  renderGifts(idx);
+
+  document.getElementById('resultSection').style.display = 'block';
+  document.getElementById('calcForm').style.display = 'none';
+  setTimeout(() => { document.getElementById('resultSection').scrollIntoView({behavior:'smooth', block:'start'}); }, 100);
+}
+
+function renderGifts(idx) {
+  const { label, sub, gifts } = getGifts(idx);
+  const sec = document.getElementById('giftsSection');
+  if (!sec) return;
+
+  // Header
+  let html = `
+    <div style="background:linear-gradient(135deg,#1a1428,#0e0a18);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;margin-bottom:12px">
+      <span style="font-size:26px">🎁</span>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#fff">${label}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px">${sub}</div>
+      </div>
+    </div>`;
+
+  gifts.forEach((g) => {
+    const topBadge = g.hot
+      ? '<span style="font-size:9px;background:#ff6b35;color:#fff;border-radius:6px;padding:2px 7px;font-weight:700;margin-left:6px">★ TOP</span>'
+      : '';
+
+    const shopBtns = g.shops
+      .filter(s => SHOPS[s.s]) // skip shops not in SHOPS anymore
+      .map(s => {
+        const sh = SHOPS[s.s];
+        return `<a href="${sh.u(s.q)}" target="_blank" rel="noopener noreferrer"
+          style="display:flex;align-items:center;justify-content:space-between;gap:10px;
+            background:linear-gradient(135deg,rgba(255,153,0,0.18),rgba(255,153,0,0.08));
+            border:1px solid rgba(255,153,0,0.5);border-radius:14px;
+            padding:13px 18px;text-decoration:none;width:100%;
+            font-family:Outfit,sans-serif;transition:all 0.2s;"
+          onmouseover="this.style.background='linear-gradient(135deg,rgba(255,153,0,0.28),rgba(255,153,0,0.15))'"
+          onmouseout="this.style.background='linear-gradient(135deg,rgba(255,153,0,0.18),rgba(255,153,0,0.08))'">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#ff9900;">
+              🛒 Bei ${sh.n} kaufen
+            </div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">
+              ${idx >= 78 ? (g.hot ? '🔥 Jetzt ist der Moment — verpass ihn nicht' : 'Überrasch sie heute, die Stimmung ist perfekt ✨') :idx >= 58 ? (g.hot ? 'Bereite ein Detail vor — der Tag spielt mit 💝' : 'Eine besondere Geste kommt immer gut an 🌸') :'Ein unerwartetes Geschenk macht jeden Tag schöner 🎁'}
+            </div>
+          </div>
+          <span style="color:#ff9900;font-size:18px;flex-shrink:0">→</span>
+        </a>`;
+      }).join('');
+
+    html += `
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:16px;margin-bottom:10px;overflow:hidden">
+        <div style="padding:14px 16px;display:flex;align-items:center;gap:12px">
+          <span style="font-size:26px;min-width:32px;text-align:center">${g.e}</span>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600;color:#fff;display:flex;align-items:center;flex-wrap:wrap">${g.n}${topBadge}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:3px">${g.d}</div>
+          </div>
+        </div>
+        <div style="padding:0 14px 14px;">
+          ${shopBtns}
+        </div>
+      </div>`;
+  });
+
+  // Affiliate note
+  html += `<p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.25);line-height:1.6;margin-top:8px">
+    💛 Über diese Links unterstützt Du die App — ohne Mehrkosten für Dich.
+  </p>`;
+
+  sec.innerHTML = html;
+  document.getElementById('resetBtn2').style.display = 'block';
+}
+
+
+
+// ── PRO LOGIC ────────────────────────────────────────────────────────────────
+
+const STRIPE_LINK = 'https://buy.stripe.com/bJe3cu4QNgje5GB2bk0Ba00';
+
+function checkProStatus() {
+  const pro = localStorage.getItem('hoymojo_pro');
+  const ts  = parseInt(localStorage.getItem('hoymojo_pro_ts') || '0');
+  if (pro === 'true' && Date.now() - ts < 32 * 86400000) {
+    var b = document.getElementById('navProBadge');
+    if (b) b.style.display = 'inline-block';
+    return true;
+  }
+  return false;
+}
+
+function activatePro() {
+  localStorage.setItem('hoymojo_pro', 'true');
+  localStorage.setItem('hoymojo_pro_ts', Date.now().toString());
+}
+
+// Check URL params on load — Stripe redirects here after payment
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('pro') === 'ok') {
+    activatePro();
+    // Clean URL
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+})();
+
+function generate30Days(bd, pd) {
+  const days = daysSince(bd);
+  return Array.from({ length: 30 }, (_, i) => {
+    const d     = days + i;
+    const cDay  = isMenoGlobal ? null : (((pd + i) % 28) + 28) % 28 || 28;
+    const emo   = bio(d, 28);
+    const fis   = bio(d, 23);
+    const int_  = bio(d, 33);
+    const phase = isMenoGlobal
+      ? { name: 'Sin ciclo', emoji: '🌙', score: 0 }
+      : getCyclePhase(cDay);
+    const raw = isMenoGlobal
+      ? ((emo+1)/2)*0.45 + ((fis+1)/2)*0.30 + ((int_+1)/2)*0.25
+      : phase.score*0.50 + ((emo+1)/2)*0.25 + ((fis+1)/2)*0.15 + ((int_+1)/2)*0.10;
+    const rawIdx = Math.round(raw * 100);
+  const idx   = normalize(rawIdx, !isMenoGlobal);
+    const date  = new Date(Date.now() + i * 86400000);
+    return { i, idx, phase, date, cDay };
+  });
+}
+
+function getDayColor(idx) {
+  if (idx >= 78) return { bg: 'rgba(255,107,53,0.25)', border: 'rgba(255,107,53,0.5)', text: '#ff6b35' };
+  if (idx >= 58) return { bg: 'rgba(245,200,66,0.18)', border: 'rgba(245,200,66,0.4)',  text: '#f5c842' };
+  if (idx >= 38) return { bg: 'rgba(126,200,227,0.12)', border: 'rgba(126,200,227,0.3)', text: '#7ec8e3' };
+  return              { bg: 'rgba(167,139,250,0.10)', border: 'rgba(167,139,250,0.25)', text: '#a78bfa' };
+}
+
+function getDayEmoji(idx) {
+  if (idx >= 78) return '🔥';
+  if (idx >= 58) return '😏';
+  if (idx >= 38) return '🤷';
+  return '🥶';
+}
+
+let isMenoGlobal = false;
+let lastBd = '';
+let lastPd = 0;
+
+function renderProBanner() {
+  const banner = document.getElementById('proBanner');
+  if (!banner) return;
+  banner.style.display = 'block';
+  banner.innerHTML = `
+    <div class="pro-banner">
+      <div class="pro-badge">✨ PRO</div>
+      <div class="pro-title">UND DIE NÄCHSTEN 30 TAGE?</div>
+      <p style="font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:16px;line-height:1.6">
+        Erfahre auf einen Blick, welche die besten Tage des Monats sind.<br>Plane im Voraus.
+      </p>
+      <div class="pro-features">
+        <span class="pro-feature">📅 30-Tage-Kalender</span>
+        <span class="pro-feature">🔥 Top-Tage hervorgehoben</span>
+        <span class="pro-feature">🚫 Keine Werbung</span>
+        <span class="pro-feature">⚡ Sofortiger Zugang</span>
+      </div>
+      <a href="${STRIPE_LINK}?client_reference_id=hoymojo" class="pro-btn">
+        🔓 FREISCHALTEN FÜR €1.99/MONAT
+      </a>
+      <p class="pro-note">Jederzeit kündbar · Sichere Zahlung mit Stripe</p>
+    </div>`;
+}
+
+function renderProCalendar(bd, pd, isMeno) {
+  const cal = document.getElementById('proCalendar');
+  if (!cal) return;
+  cal.style.display = 'block';
+
+  const days30 = generate30Days(bd, pd);
+  const weekdays = ['S','M','D','M','D','F','S'];
+
+  // Fill empty cells before day 1
+  const startDow = days30[0].date.getDay();
+  let gridHtml = weekdays.map(d => `<div class="cal-day-header">${d}</div>`).join('');
+  for (let i = 0; i < startDow; i++) gridHtml += '<div></div>';
+
+  days30.forEach((day, i) => {
+    const c = getDayColor(day.idx);
+    const isToday = i === 0;
+    gridHtml += `
+      <div class="cal-day" style="background:${c.bg};border:1.5px solid ${isToday ? '#fff' : c.border}">
+        <div class="cal-day-num" style="color:${isToday ? '#fff' : c.text};font-weight:${isToday?800:500}">${day.date.getDate()}</div>
+        <div class="cal-day-idx" style="color:${c.text}">${day.idx}</div>
+      </div>`;
+  });
+
+  // Top 5 best days
+  const top5 = [...days30].sort((a,b) => b.idx - a.idx).slice(0,5);
+  const top5Html = top5.map(d => {
+    const c = getDayColor(d.idx);
+    const label = d.i === 0 ? 'Heute' : d.date.toLocaleDateString('de-DE', {weekday:'short', day:'numeric', month:'short'});
+    return `<div class="best-day-item">
+      <span style="font-size:13px;color:rgba(255,255,255,0.8)">${getDayEmoji(d.idx)} ${label}</span>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;color:${c.text}">${d.idx}/100</span>
+    </div>`;
+  }).join('');
+
+  cal.innerHTML = `
+    <div class="pro-calendar">
+      <div class="pro-cal-header">
+        <div class="pro-cal-title">📅 NÄCHSTE 30 TAGE</div>
+        <div class="pro-cal-badge">PRO</div>
+      </div>
+      <div class="cal-grid">${gridHtml}</div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#ff6b35"></div>🔥 Glückstag (78+)</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#f5c842"></div>😏 Gut (58+)</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#7ec8e3"></div>🤷 Vielleicht (38+)</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#a78bfa"></div>🥶 Nein (0-37)</div>
+      </div>
+      <div class="best-days">
+        <div class="best-days-title">🏆 Top 5 beste Tage</div>
+        ${top5Html}
+      </div>
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.25);margin-top:14px">
+        Möchtest Du kündigen? Schreib uns an hola@hoy-mojo.com
+      </p>
+    </div>`;
+}
+
+function resetCalc() {
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('calcForm').style.display = 'block';
+  // Reset date selectors
+  // Reset wheel pickers
+  if (document.getElementById('birthDateCont')) buildWheelDate('birthDateCont','bd');
+  document.getElementById('periodDays').value = '';
+  document.getElementById('periodField').style.display = 'none';
+  document.getElementById('calcBtn').disabled = true;
+  document.getElementById('proBanner').style.display = 'none';
+  document.getElementById('proCalendar').style.display = 'none';
+  document.getElementById('giftsSection').innerHTML = '';
+  document.getElementById('resetBtn2').style.display = 'none';
+  // Reset profile
+  window.selectedProfile = '';
+  ['female_cycle','female_no_cycle','male','other'].forEach(p => {
+    const el = document.getElementById('opt_' + p);
+    if (el) el.classList.remove('selected');
+  });
+  document.querySelector('.calc-section') && document.querySelector('.calc-section').scrollIntoView({behavior:'smooth'});
+}
+
+// Profile selector logic
+window.selectedProfile = '';
+
+function selectProfile(profile) {
+  window.selectedProfile = profile;
+  // Update visual state
+  ['female_cycle','female_no_cycle','male','other'].forEach(p => {
+    const el = document.getElementById('opt_' + p);
+    if (el) el.classList.toggle('selected', p === profile);
+  });
+  // Show/hide period field
+  const periodField = document.getElementById('periodField');
+  const periodInput = document.getElementById('periodDays');
+  if (profile === 'female_cycle') {
+    if (periodField) periodField.style.display = 'block';
+  } else {
+    if (periodField) periodField.style.display = 'none';
+    if (periodInput) periodInput.value = '';
+  }
+  updateCalcBtn();
+}
+
+function updateCalcBtn() {
+  const bd      = getWheelDateVal('bd');
+  const profile = window.selectedProfile || 'female_no_cycle'; // default if none selected
+  const hasCycle = profile === 'female_cycle';
+  const pd      = hasCycle ? parseInt(document.getElementById('periodDays').value) : 1;
+  document.getElementById('calcBtn').disabled = !(bd && profile && (!hasCycle || pd >= 1));
+}
+
+// Setup — all DOM operations safely inside DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Period days input listener
+  var pdEl = document.getElementById('periodDays');
+  if (pdEl) pdEl.addEventListener('input', updateCalcBtn);
+
+  // Scroll reveal
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
+});
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
